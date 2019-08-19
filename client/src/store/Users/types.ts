@@ -1,0 +1,16 @@
+export interface User {
+  name: String;
+  email: String;
+  password: String;
+}
+
+export enum ActionTypes {
+  addUser = "ADD_USER"
+}
+
+export interface AddUserAction {
+  type: ActionTypes.addUser;
+  payload: User;
+}
+
+export type UserActions = AddUserAction;

@@ -1,12 +1,37 @@
 import express = require("express");
+import mongoose = require("mongoose");
+
+import graphqlHttp = require("express-graphql");
+import graphqlSchema = require("./graphql/schema");
+import graphqlResolver = require("./graphql/resolvers");
 
 const app: express.Application = express();
 
 // console.log("12345");
 
+// DB config
+
+const db = require("./config/keys").mongoURI;
+
+// Connect to MongoDB
+
+mongoose
+  .connect(db)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
+
 app.get("/", function(req, res) {
   res.send("dsf");
 });
+
+app.use(
+  "/graphql",
+  graphqlHttp({
+    schema: graphqlSchema,
+    rootValue: graphqlResolver,
+    graphiql: true
+  })
+);
 
 const port = process.env.PORT || 5000;
 

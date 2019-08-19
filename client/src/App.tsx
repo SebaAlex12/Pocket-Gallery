@@ -8,6 +8,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { reducers } from "./store/index";
 
 import PicturesList from "./store/Pictures/components/PicturesList";
+import LoginForm from "./store/Users/components/LoginForm";
+import RegistryForm from "./store/Users/components/RegistryForm";
 
 const store = createStore(
   reducers,
@@ -17,7 +19,11 @@ const store = createStore(
 function App() {
   return (
     <Provider store={store}>
-      <div className="App">
+      <div className="App container mt-4 mb-4">
+        <div className="row">
+          <RegistryForm />
+          <LoginForm />
+        </div>
         <PicturesList />
       </div>
     </Provider>
