@@ -7,8 +7,6 @@ import graphqlResolver = require("./graphql/resolvers");
 
 const app: express.Application = express();
 
-// console.log("12345");
-
 // DB config
 
 const db = require("./config/keys").mongoURI;
@@ -20,9 +18,10 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
-app.get("/", function(req, res) {
-  res.send("dsf");
-});
+// app.use("/graphql", (req, res) => {
+//   console.log("server side");
+//   return req;
+// });
 
 app.use(
   "/graphql",
@@ -32,6 +31,10 @@ app.use(
     graphiql: true
   })
 );
+
+// app.get("/", function(req, res) {
+//   res.send("dsf");
+// });
 
 const port = process.env.PORT || 5000;
 
