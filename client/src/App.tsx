@@ -6,10 +6,10 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { reducers } from "./store/index";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import PicturesList from "./store/Pictures/components/PicturesList";
-import LoginForm from "./store/Users/components/LoginForm";
-import RegistryForm from "./store/Users/components/RegistryForm";
+import Dashboard from "./layout/Dashboard";
+import Landing from "./layout/Landing";
 
 const store = createStore(
   reducers,
@@ -19,13 +19,13 @@ const store = createStore(
 function App() {
   return (
     <Provider store={store}>
-      <div className="App container mt-4 mb-4">
-        <div className="row">
-          <RegistryForm />
-          <LoginForm />
-        </div>
-        <PicturesList />
-      </div>
+      <Router>
+        {!localStorage.jwtToken || localStorage.jwtToken === undefined ? (
+          <Dashboard />
+        ) : (
+          <Landing />
+        )}
+      </Router>
     </Provider>
   );
 }

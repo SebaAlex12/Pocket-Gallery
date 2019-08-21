@@ -9,12 +9,12 @@ export interface UsersState {
 }
 
 export enum ActionTypes {
-  addUser = "ADD_USER"
+  setUser = "SET_USER"
 }
 
-export interface AddUserAction {
-  type: ActionTypes.addUser;
+export interface SetUserAction {
+  type: ActionTypes.setUser;
   payload: User[];
 }
 
-export type UserAction = AddUserAction;
+export type UserAction = SetUserAction;

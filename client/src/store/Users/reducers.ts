@@ -9,7 +9,7 @@ export const usersReducer = (
   action: UserAction
 ): UsersState => {
   switch (action.type) {
-    case ActionTypes.addUser:
+    case ActionTypes.setUser:
       return {
         ...state,
         user: action.payload

@@ -1,9 +1,9 @@
 import React, { Component, FormEvent } from "react";
 import { connect } from "react-redux";
-import { addUser } from "../actions";
+import { registerUser } from "../actions";
 
 interface Iprops {
-  addUser(data: any): void;
+  registerUser(data: any): void;
 }
 interface Istate {
   name: String;
@@ -28,9 +28,9 @@ class RegistryForm extends Component<Iprops, Istate> {
   };
   registerHandler = (event: FormEvent<HTMLInputElement>): void => {
     event.preventDefault();
-    const { addUser } = this.props;
+    const { registerUser } = this.props;
     // console.log(this.state);
-    addUser(this.state);
+    registerUser(this.state);
   };
   render() {
     return (
@@ -86,5 +86,5 @@ const mapStateToProps = (state: any) => {
 
 export default connect(
   mapStateToProps,
-  { addUser }
+  { registerUser }
 )(RegistryForm);
