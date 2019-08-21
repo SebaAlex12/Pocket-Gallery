@@ -18,11 +18,6 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch(err => console.log(err));
 
-// app.use("/graphql", (req, res) => {
-//   console.log("server side");
-//   return req;
-// });
-
 app.use(
   "/graphql",
   graphqlHttp({
@@ -31,10 +26,6 @@ app.use(
     graphiql: true
   })
 );
-
-// app.get("/", function(req, res) {
-//   res.send("dsf");
-// });
 
 const port = process.env.PORT || 5000;
 

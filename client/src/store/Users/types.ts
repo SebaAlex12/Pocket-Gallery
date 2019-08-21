@@ -4,13 +4,17 @@ export interface User {
   password: String;
 }
 
+export interface UsersState {
+  user: User[];
+}
+
 export enum ActionTypes {
   addUser = "ADD_USER"
 }
 
 export interface AddUserAction {
   type: ActionTypes.addUser;
-  payload: User;
+  payload: User[];
 }
 
-export type UserActions = AddUserAction;
+export type UserAction = AddUserAction;
