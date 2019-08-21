@@ -13,8 +13,13 @@ class LogoutButton extends Component<Iprops> {
   };
   render() {
     return (
-      <div className="logout-button">
-        <button onClick={this.logoutHandler}>Logout</button>
+      <div className="">
+        <button
+          className="btn btn-secondary float-right"
+          onClick={this.logoutHandler}
+        >
+          Logout
+        </button>
       </div>
     );
   }

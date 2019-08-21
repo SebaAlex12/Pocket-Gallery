@@ -20,11 +20,18 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        {!localStorage.jwtToken || localStorage.jwtToken === undefined ? (
-          <Dashboard />
-        ) : (
-          <Landing />
-        )}
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12">
+              <h1>Pocket Gallery</h1>
+              {!localStorage.jwtToken || localStorage.jwtToken === undefined ? (
+                <Dashboard />
+              ) : (
+                <Landing />
+              )}
+            </div>
+          </div>
+        </div>
       </Router>
     </Provider>
   );

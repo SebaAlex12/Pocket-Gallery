@@ -1,16 +1,16 @@
 import { combineReducers } from "redux";
 
-import { picturesReducer } from "./Pictures/reducers";
-import { PicturesState } from "./Pictures/types";
+import { photosReducer } from "./Photos/reducers";
+import { PhotosState } from "./Photos/types";
 import { usersReducer } from "./Users/reducers";
 import { UsersState } from "./Users/types";
 
 export interface StoreState {
-  pictures: PicturesState[];
+  photos: PhotosState[];
   users: UsersState[];
 }
 
 export const reducers = combineReducers({
-  pictures: picturesReducer,
+  photos: photosReducer,
   users: usersReducer
 });

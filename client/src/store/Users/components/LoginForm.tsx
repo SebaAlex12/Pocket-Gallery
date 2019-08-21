@@ -36,7 +36,7 @@ class LoginForm extends Component<Iprops, Istate> {
   // }
   render() {
     return (
-      <div className="login-form-box col-lg-4">
+      <div className="login-form-box mb-3 mt-3">
         <h2>Login form</h2>
         <form action="post">
           <div className="form-group form-row">

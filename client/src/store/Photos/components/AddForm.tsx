@@ -1,23 +1,24 @@
 import React, { Component, FormEvent } from "react";
 import { connect } from "react-redux";
-import { registerUser } from "../actions";
+import { addPhoto } from "../actions";
 
 interface Iprops {
-  registerUser(data: any): void;
-}
-interface Istate {
-  name: String;
-  email: String;
-  password: String;
+  addPhoto(data: any): void;
 }
 
-class RegistryForm extends Component<Iprops, Istate> {
+interface Istate {
+  title: String;
+  description: String;
+  imageUrl: String;
+}
+
+class AddForm extends Component<Iprops, Istate> {
   constructor(props: Iprops) {
     super(props);
     this.state = {
-      name: "",
-      email: "",
-      password: ""
+      title: "",
+      description: "",
+      imageUrl: ""
     };
   }
   onChangeInput = (event: FormEvent<HTMLInputElement>): void => {
@@ -26,47 +27,46 @@ class RegistryForm extends Component<Iprops, Istate> {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  registerHandler = (event: FormEvent<HTMLInputElement>): void => {
+  addHandler = (event: FormEvent<HTMLInputElement>): void => {
+    const { addPhoto } = this.props;
     event.preventDefault();
-    const { registerUser } = this.props;
-    // console.log(this.state);
-    registerUser(this.state);
+    addPhoto(this.state);
   };
   render() {
     return (
-      <div className="registry-form-box mt-3 mb-3">
-        <h2>Registry form</h2>
+      <div>
+        <h2>Add Image</h2>
         <form action="post">
           <div className="form-group form-row">
-            <label htmlFor="">Name:</label>
+            <label htmlFor="">Title:</label>
             <input
               onChange={this.onChangeInput}
-              className="form-control"
               type="text"
-              name="name"
+              name="title"
+              className="form-control"
             />
           </div>
           <div className="form-group form-row">
-            <label htmlFor="">Email:</label>
+            <label htmlFor="">Description:</label>
             <input
               onChange={this.onChangeInput}
-              className="form-control"
               type="text"
-              name="email"
+              name="description"
+              className="form-control"
             />
           </div>
           <div className="form-group form-row">
-            <label htmlFor="">Password:</label>
+            <label htmlFor="">Image url:</label>
             <input
               onChange={this.onChangeInput}
+              type="text"
+              name="imageUrl"
               className="form-control"
-              type="password"
-              name="password"
             />
           </div>
           <div className="form-group">
             <input
-              onClick={this.registerHandler}
+              onClick={this.addHandler}
               className="btn btn-primary float-right"
               type="submit"
               value="send"
@@ -79,12 +79,10 @@ class RegistryForm extends Component<Iprops, Istate> {
 }
 
 const mapStateToProps = (state: any) => {
-  return {
-    // pictures: state.pictures
-  };
+  return {};
 };
 
 export default connect(
   mapStateToProps,
-  { registerUser }
-)(RegistryForm);
+  { addPhoto }
+)(AddForm);
