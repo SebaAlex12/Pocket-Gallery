@@ -1,4 +1,4 @@
-import PhotosListPublic from "../store/Photos/components/ListPublic";
+import ListPublic from "../store/Photos/components/ListPublic";
 import LoginForm from "../store/Users/components/LoginForm";
 import RegistryForm from "../store/Users/components/RegistryForm";
 import AddForm from "../store/Photos/components/AddForm";
@@ -72,7 +72,7 @@ class Dashboard extends Component<Iprops, Istate> {
           {registryToggle ? <RegistryForm /> : null}
           {loginToggle ? <LoginForm /> : null}
         </div>
-        <PhotosListPublic />
+        <ListPublic />
       </div>
     );
   }

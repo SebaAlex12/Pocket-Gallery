@@ -1,9 +1,11 @@
 export interface Photo {
-  title: String;
-  name: String;
-  description: String;
-  imageUrl: String;
-  createdAt: String;
+  id: string;
+  title: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  status: string;
+  createdAt: string;
 }
 
 export interface PhotosState {

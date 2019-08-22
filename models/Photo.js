@@ -1,4 +1,4 @@
-const mongoose = required("mongoose");
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PhotoSchema = new Schema({
@@ -12,10 +12,14 @@ const PhotoSchema = new Schema({
     type: String,
     required: true
   },
+  status: {
+    type: String,
+    required: true
+  },
   createdAt: {
     type: String,
     required: true
   }
 });
 
-module.exports = Photo = mongoose.model("Photo", PhotoSchema);
+module.exports = Photo = mongoose.model("photos", PhotoSchema);

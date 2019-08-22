@@ -9,6 +9,8 @@ interface Iprops {
 interface Istate {
   title: String;
   description: String;
+  status: String;
+  imageFile: String;
   imageUrl: String;
 }
 
@@ -18,6 +20,8 @@ class AddForm extends Component<Iprops, Istate> {
     this.state = {
       title: "",
       description: "",
+      status: "public",
+      imageFile: "",
       imageUrl: ""
     };
   }
@@ -36,7 +40,7 @@ class AddForm extends Component<Iprops, Istate> {
     return (
       <div>
         <h2>Add Image</h2>
-        <form action="post">
+        <form action="" method="post" encType="multipart/form-data">
           <div className="form-group form-row">
             <label htmlFor="">Title:</label>
             <input
@@ -64,12 +68,21 @@ class AddForm extends Component<Iprops, Istate> {
               className="form-control"
             />
           </div>
+          <div className="form-group form-row">
+            <label htmlFor="">Image url:</label>
+            <input
+              onChange={this.onChangeInput}
+              type="file"
+              name="imageFile"
+              className="form-control"
+            />
+          </div>
           <div className="form-group">
             <input
               onClick={this.addHandler}
               className="btn btn-primary float-right"
               type="submit"
-              value="send"
+              value="add"
             />
           </div>
         </form>
