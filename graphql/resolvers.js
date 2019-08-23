@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Photo = require("../models/Photo");
+const Album = require("../models/Album");
 
 //user authorization
 const bcrypt = require("bcrypt");
@@ -76,5 +77,18 @@ module.exports = {
     const photos = await Photo.find(params);
 
     return photos;
+  },
+  addAlbum: async function({ albumInput }, req) {
+    const album = new Album({
+      name: albumInput.name,
+      title: albumInput.title,
+      description: albumInput.description,
+      status: albumInput.status,
+      createdAt: albumInput.createdAt
+    });
+
+    const storedAlbum = await album.save();
+
+    return { ...storedAlbum._doc, _id: storedAlbum._id.toString() };
   }
 };

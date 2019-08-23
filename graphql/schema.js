@@ -19,6 +19,15 @@ module.exports = buildSchema(`
         createdAt: String!
     }
 
+    type Album {
+        _id: ID!
+        name: String!
+        title: String
+        description: String
+        status: String!
+        createdAt: String!
+    }
+
     input UserInputData {
         name: String!
         email: String!
@@ -34,6 +43,14 @@ module.exports = buildSchema(`
         createdAt: String
     }
 
+    input AlbumInputData {
+        name: String!
+        title: String
+        description: String
+        status: String!
+        createdAt: String!
+    }
+
     type UserLoginData {
         _id: ID!
         name: String!
@@ -45,6 +62,7 @@ module.exports = buildSchema(`
     type RootMutation {
         createUser(userInput: UserInputData): User!
         addPhoto(photoInput: PhotoInputData): Photo!
+        addAlbum(albumInput: AlbumInputData): Album!
     }
 
     type RootQuery {

@@ -40,15 +40,16 @@ export const fetchPhotos = (data: any) => {
 export const addPhoto = (data: any) => {
   return async (dispatch: Dispatch) => {
     const presentDate = new Date();
-
+    const multifiles: any = document.getElementById("file-select");
+    const files = multifiles.files;
     const formData = new FormData();
+    const dest = "albums-maja";
 
-    formData.append("dest", "uploads");
-    formData.append("file", data.imageFile);
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i], files[i].name);
+    }
 
-    // console.log("action creator", data);
-
-    await axios.put("/upload", formData).then(res => {
+    await axios.post(`/upload-image/${dest}`, formData).then(res => {
       console.log("image uploaded");
     });
 
