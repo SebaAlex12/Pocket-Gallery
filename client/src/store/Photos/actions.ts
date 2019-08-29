@@ -43,7 +43,8 @@ export const addPhoto = (data: any) => {
     const multifiles: any = document.getElementById("file-select");
     const files = multifiles.files;
     const formData = new FormData();
-    const dest = "albums-maja";
+
+    const dest = "albums-" + data.albumId;
 
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i], files[i].name);

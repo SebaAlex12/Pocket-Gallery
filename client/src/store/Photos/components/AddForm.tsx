@@ -2,9 +2,13 @@ import React, { Component, FormEvent } from "react";
 import { connect } from "react-redux";
 import { addPhoto } from "../actions";
 import AlbumAddForm from "../../Albums/components/AlbumAddForm";
+import { fetchAlbums } from "../../Albums/actions";
+import { Album } from "../../Albums/types";
 
 interface Iprops {
+  albums: Album[];
   addPhoto(data: any): void;
+  fetchAlbums(data: any): void;
 }
 
 interface Istate {
@@ -23,7 +27,7 @@ class AddForm extends Component<Iprops, Istate> {
       title: "",
       description: "",
       status: "public",
-      albumId: "uyeguqwbf4375d",
+      albumId: "",
       imageUrl: "",
       albumToggle: false
     };
@@ -34,12 +38,26 @@ class AddForm extends Component<Iprops, Istate> {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
+  onChangeSelect = (event: FormEvent<HTMLSelectElement>): void => {
+    this.setState({
+      ...this.state,
+      [event.currentTarget.name]: event.currentTarget.value
+    });
+  };
   addHandler = (event: FormEvent<HTMLInputElement>): void => {
     const { addPhoto } = this.props;
+    const { albumId } = this.state;
     event.preventDefault();
-    addPhoto(this.state);
+
+    if (albumId !== "") {
+      addPhoto(this.state);
+    }
   };
+  componentDidMount() {
+    this.props.fetchAlbums("public");
+  }
   render() {
+    const { albums } = this.props;
     const { albumToggle } = this.state;
     return (
       <div>
@@ -57,33 +75,24 @@ class AddForm extends Component<Iprops, Istate> {
         <h2>Add Image</h2>
         <div className="clearfix pt-5 pb-5">
           <form action="" method="post" encType="multipart/form-data">
-            {/* <div className="form-group form-row">
-            <label htmlFor="">Title:</label>
-            <input
-              onChange={this.onChangeInput}
-              type="text"
-              name="title"
-              className="form-control"
-            />
-          </div>
-          <div className="form-group form-row">
-            <label htmlFor="">Description:</label>
-            <input
-              onChange={this.onChangeInput}
-              type="text"
-              name="description"
-              className="form-control"
-            />
-          </div>
-          <div className="form-group form-row">
-            <label htmlFor="">Image url:</label>
-            <input
-              onChange={this.onChangeInput}
-              type="text"
-              name="imageUrl"
-              className="form-control"
-            />
-          </div> */}
+            <div className="form-group">
+              <select
+                className="form-control"
+                onChange={this.onChangeSelect}
+                name="albumId"
+              >
+                <option value="">Select Album from list</option>
+                {albums
+                  ? albums.map(album => {
+                      return (
+                        <option key={album._id} value={album._id}>
+                          {album.title}
+                        </option>
+                      );
+                    })
+                  : null}
+              </select>
+            </div>
             <div className="form-group form-row">
               <label htmlFor="" />
               <input
@@ -111,10 +120,12 @@ class AddForm extends Component<Iprops, Istate> {
 }
 
 const mapStateToProps = (state: any) => {
-  return {};
+  return {
+    albums: state.albums.albums
+  };
 };
 
 export default connect(
   mapStateToProps,
-  { addPhoto }
+  { addPhoto, fetchAlbums }
 )(AddForm);

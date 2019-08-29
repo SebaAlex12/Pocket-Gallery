@@ -1,7 +1,10 @@
 import React, { Component, FormEvent } from "react";
 import { connect } from "react-redux";
+import { addAlbum } from "../actions";
 
-interface Iprops {}
+interface Iprops {
+  addAlbum(data: any): void;
+}
 interface Istate {
   name: String;
   title: String;
@@ -28,9 +31,18 @@ class AlbumAddForm extends Component<Iprops, Istate> {
     });
   };
   addHandler = (event: FormEvent<HTMLInputElement>): void => {
-    // const { addPhoto } = this.props;
+    const { addAlbum } = this.props;
+    const { name, title, description, status } = this.state;
+
+    const data = {
+      name: title.replace(/ /g, "-"),
+      title,
+      description,
+      status
+    };
+
     event.preventDefault();
-    // addPhoto(this.state);
+    addAlbum(data);
   };
   render() {
     return (
@@ -72,5 +84,5 @@ const mapStateToProps = (state: any) => {
 };
 export default connect(
   mapStateToProps,
-  {}
+  { addAlbum }
 )(AlbumAddForm);

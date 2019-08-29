@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchPhotos } from "../actions";
-import ListItem from "./ListItem";
-import { Photo } from "../types";
+import { fetchAlbums } from "../../Albums/actions";
+import { Album } from "../../Albums/types";
+import ListItem from "../components/ListItem";
 
 interface Iprops {
-  photos: Photo[];
-  fetchPhotos(data: any): void;
+  albums: Album[];
+  fetchAlbums(data: any): void;
 }
 interface Istatus {
   status: String;
@@ -20,31 +20,27 @@ class ListPublic extends Component<Iprops, Istatus> {
     };
   }
   componentDidMount() {
-    this.props.fetchPhotos(this.state);
+    this.props.fetchAlbums(this.state.status);
   }
 
+  getPhotos(path: string) {}
+
   render() {
-    const { photos } = this.props;
+    const { albums } = this.props;
 
-    let photosContent;
+    let albumsContent;
 
-    if (photos === null || photos.length === 0) {
-      photosContent = "Loading ...";
+    if (albums === null || albums.length === 0) {
+      albumsContent = "Loading ...";
     } else {
-      photosContent = photos.map(photo => (
-        <ListItem
-          key={photo.id}
-          title={photo.title}
-          description={photo.description}
-          imageUrl={photo.imageUrl}
-          createdAt={photo.createdAt}
-        />
-      ));
+      albumsContent = albums.map(album => {
+        return <h2>{album.title}</h2>;
+      });
     }
 
     return (
       <div className="mt-3 mb-3">
-        <div className="row">{photosContent}</div>
+        <div className="row">{albumsContent}</div>
       </div>
     );
   }
@@ -52,11 +48,11 @@ class ListPublic extends Component<Iprops, Istatus> {
 
 const mapStateToProps = (state: any) => {
   return {
-    photos: state.photos.photos
+    albums: state.albums.albums
   };
 };
 
 export default connect(
   mapStateToProps,
-  { fetchPhotos }
+  { fetchAlbums }
 )(ListPublic);

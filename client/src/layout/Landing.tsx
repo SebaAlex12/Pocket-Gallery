@@ -1,4 +1,4 @@
-import PhotosList from "../store/Photos/components/List";
+import ListPublic from "../store/Photos/components/ListPublic";
 import LogoutButton from "../store/Users/components/LogoutButton";
 import AddForm from "../store/Photos/components/AddForm";
 
@@ -40,7 +40,7 @@ class Landing extends Component<Iprops, Istate> {
         >
           {addImageToggle ? <AddForm /> : null}
         </div>
-        <PhotosList />
+        <ListPublic />
       </div>
     );
   }

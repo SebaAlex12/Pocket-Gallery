@@ -25,6 +25,7 @@ module.exports = buildSchema(`
         title: String
         description: String
         status: String!
+        photos: [String]
         createdAt: String!
     }
 
@@ -68,6 +69,7 @@ module.exports = buildSchema(`
     type RootQuery {
         loginUser(email: String!, password: String!): UserLoginData!
         fetchPhotos(album: String, category: String, status: String!): [Photo]!
+        fetchAlbums(status: String!): [Album]!
     }
 
     schema {

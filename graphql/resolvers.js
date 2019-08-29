@@ -6,6 +6,8 @@ const Album = require("../models/Album");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const fs = require("fs");
+
 module.exports = {
   createUser: async function({ userInput }, req) {
     const userExists = await User.findOne({ email: userInput.email });
@@ -78,6 +80,35 @@ module.exports = {
 
     return photos;
   },
+  fetchAlbums: async function({ status }) {
+    const params = {
+      status: status
+    };
+
+    let albums = await Album.find(params);
+
+    albums = await albums.map(album => {
+      let path = "photos/albums/" + album._id;
+      album.photos = [];
+
+      fs.readdir(path, (err, files) => {
+        console.log(files);
+        // album.photos = files;
+        album.photos = ["fwergerwg", "hrthrtyt"];
+      });
+      // console.log(files);
+      // album.title = "dedddddd";
+      console.log("photos", album.photos);
+
+      // if (album.photos.length > 0) {
+      return album;
+      // }
+    });
+
+    console.log("albums: ", albums);
+
+    return albums;
+  },
   addAlbum: async function({ albumInput }, req) {
     const album = new Album({
       name: albumInput.name,
@@ -88,6 +119,13 @@ module.exports = {
     });
 
     const storedAlbum = await album.save();
+
+    const path = "photos/albums/" + storedAlbum._id;
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path);
+    } else {
+      console.log("path already exists");
+    }
 
     return { ...storedAlbum._doc, _id: storedAlbum._id.toString() };
   }
