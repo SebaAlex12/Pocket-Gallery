@@ -66,7 +66,12 @@ class Dashboard extends Component<Iprops, Istate> {
         </nav>
         <div
           className="flow-box jumbotron"
-          style={{ position: "absolute", top: "120px", right: "15px" }}
+          style={{
+            position: "absolute",
+            top: "120px",
+            right: "15px",
+            zIndex: 1000
+          }}
         >
           {addImageToggle ? <AddForm /> : null}
           {registryToggle ? <RegistryForm /> : null}

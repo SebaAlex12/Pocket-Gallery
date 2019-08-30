@@ -4,6 +4,7 @@ export interface Album {
   title: string;
   description: string;
   status: string;
+  photos: [];
   createdAt: string;
 }
 

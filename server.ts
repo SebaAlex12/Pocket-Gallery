@@ -32,7 +32,7 @@ mongoose
 // Set storage engine
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, "./photos/" + req.params.dest.replace("-", "/"));
+    cb(null, "./client/public/photos/" + req.params.dest.replace("-", "/"));
   },
   filename: function(req, file, cb) {
     console.log("file arguments:", file);
@@ -45,7 +45,7 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   limits: {
-    fileSize: 1000000
+    fileSize: 10000000
   },
   fileFilter: function(req, file, cb) {
     sanitizeFile(file, cb);

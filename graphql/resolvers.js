@@ -7,6 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const fs = require("fs");
+const fsPromises = fs.promises;
 
 module.exports = {
   createUser: async function({ userInput }, req) {
@@ -87,27 +88,13 @@ module.exports = {
 
     let albums = await Album.find(params);
 
-    albums = await albums.map(album => {
-      let path = "photos/albums/" + album._id;
-      album.photos = [];
-
-      fs.readdir(path, (err, files) => {
-        console.log(files);
-        // album.photos = files;
-        album.photos = ["fwergerwg", "hrthrtyt"];
-      });
-      // console.log(files);
-      // album.title = "dedddddd";
-      console.log("photos", album.photos);
-
-      // if (album.photos.length > 0) {
+    const newAlbums = albums.map(album => {
+      let path = "./client/public/photos/albums/" + album._id;
+      album.photos = fsPromises.readdir(path);
       return album;
-      // }
     });
 
-    console.log("albums: ", albums);
-
-    return albums;
+    return newAlbums;
   },
   addAlbum: async function({ albumInput }, req) {
     const album = new Album({
@@ -120,7 +107,7 @@ module.exports = {
 
     const storedAlbum = await album.save();
 
-    const path = "photos/albums/" + storedAlbum._id;
+    const path = "./client/public/photos/albums/" + storedAlbum._id;
     if (!fs.existsSync(path)) {
       fs.mkdirSync(path);
     } else {

@@ -34,13 +34,29 @@ class ListPublic extends Component<Iprops, Istatus> {
       albumsContent = "Loading ...";
     } else {
       albumsContent = albums.map(album => {
-        return <h2>{album.title}</h2>;
+        let items;
+        if (album.photos.length > 0) {
+          items = album.photos.map(photo => {
+            return (
+              <ListItem
+                key={album._id}
+                imageUrl={`/photos/albums/${album._id}/${photo}`}
+              />
+            );
+          });
+        }
+        return (
+          <section>
+            <h2>{album.title}</h2>
+            <div className="row">{items}</div>
+          </section>
+        );
       });
     }
 
     return (
       <div className="mt-3 mb-3">
-        <div className="row">{albumsContent}</div>
+        <div className="">{albumsContent}</div>
       </div>
     );
   }
