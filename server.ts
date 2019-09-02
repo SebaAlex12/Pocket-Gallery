@@ -1,6 +1,6 @@
 import express = require("express");
 import mongoose = require("mongoose");
-// import bodyParser = require("body-parser");
+import bodyParser = require("body-parser");
 import multer = require("multer");
 
 import graphqlHttp = require("express-graphql");
@@ -9,14 +9,16 @@ import graphqlResolver = require("./graphql/resolvers");
 
 const app: express.Application = express();
 
-// app.use(bodyParser.json({ limit: "50mb" }));
-// app.use(
-//   bodyParser.urlencoded({
-//     limit: "50mb",
-//     extended: true,
-//     parameterLimit: 50000
-//   })
-// );
+import fs = require("fs");
+
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000
+  })
+);
 
 // DB config
 
@@ -86,6 +88,17 @@ app.post("/upload-image/:dest", (req: any, res) => {
         console.log("File uploaded successfully!");
       }
     }
+  });
+});
+
+app.post("/delete-image/", (req: any, res) => {
+  console.log(req.body.links);
+  const links = req.body.links;
+  links.forEach(link => {
+    fs.unlink("./client/public/" + link, function(err) {
+      if (err) throw err;
+      console.log("File deleted!");
+    });
   });
 });
 

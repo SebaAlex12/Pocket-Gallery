@@ -9,9 +9,7 @@ export const fetchPhotos = (data: any) => {
     const graph = {
       query: `
         query {
-          fetchPhotos(album: "${data.album}",category: "${
-        data.category
-      }",status:"${status}"){
+          fetchPhotos(album: "${data.album}",category: "${data.category}",status:"${status}"){
         _id
         title
         description
@@ -37,7 +35,7 @@ export const fetchPhotos = (data: any) => {
   };
 };
 
-export const addPhoto = (data: any) => {
+export const addPhotos = (data: any) => {
   return async (dispatch: Dispatch) => {
     const presentDate = new Date();
     const multifiles: any = document.getElementById("file-select");
@@ -78,5 +76,13 @@ export const addPhoto = (data: any) => {
       .then(res => {
         console.log("image  added");
       });
+  };
+};
+
+export const removePhotos = (links: any) => {
+  return async (dispatch: Dispatch) => {
+    await axios.post(`/delete-image/`, { links: links }).then(res => {
+      console.log("images has been deleted");
+    });
   };
 };

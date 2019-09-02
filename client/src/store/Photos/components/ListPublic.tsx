@@ -1,30 +1,59 @@
-import React, { Component } from "react";
+import React, { Component, FormEvent } from "react";
 import { connect } from "react-redux";
 import { fetchAlbums } from "../../Albums/actions";
 import { Album } from "../../Albums/types";
-import ListItem from "../components/ListItem";
+import AlbumItem from "../../Albums/components/AlbumItem";
+import { removePhotos } from "../../Photos/actions";
 
 interface Iprops {
   albums: Album[];
   fetchAlbums(data: any): void;
+  removePhotos(data: any): void;
 }
-interface Istatus {
+interface Istate {
   status: String;
+  selected: any;
 }
 
-class ListPublic extends Component<Iprops, Istatus> {
+class ListPublic extends Component<Iprops, Istate> {
   constructor(props: Iprops) {
     super(props);
     this.state = {
-      status: "public"
+      status: "public",
+      selected: []
     };
   }
   componentDidMount() {
     this.props.fetchAlbums(this.state.status);
+    // console.log("component did mount");
+    this.setState({
+      selected: []
+    });
   }
+  checkIfChecked = (item: string) => {
+    const { selected } = this.state;
 
-  getPhotos(path: string) {}
+    let newSelected = [];
 
+    newSelected =
+      selected.includes(item) === true
+        ? selected.filter((el: any) => el !== item)
+        : [...selected, item];
+
+    this.setState({
+      selected: newSelected
+    });
+  };
+  removePhotosHandler = () => {
+    const { removePhotos, fetchAlbums } = this.props;
+    const { selected } = this.state;
+
+    removePhotos(selected);
+    fetchAlbums("public");
+    this.setState({
+      selected: []
+    });
+  };
   render() {
     const { albums } = this.props;
 
@@ -34,21 +63,13 @@ class ListPublic extends Component<Iprops, Istatus> {
       albumsContent = "Loading ...";
     } else {
       albumsContent = albums.map(album => {
-        let items;
-        if (album.photos.length > 0) {
-          items = album.photos.map(photo => {
-            return (
-              <ListItem
-                key={album._id}
-                imageUrl={`/photos/albums/${album._id}/${photo}`}
-              />
-            );
-          });
-        }
         return (
           <section>
-            <h2>{album.title}</h2>
-            <div className="row">{items}</div>
+            <AlbumItem
+              album={album}
+              removePhotosHandler={this.removePhotosHandler} // callback function to listItemNav
+              checkIfChecked={this.checkIfChecked} // callback function to listItem
+            />
           </section>
         );
       });
@@ -70,5 +91,5 @@ const mapStateToProps = (state: any) => {
 
 export default connect(
   mapStateToProps,
-  { fetchAlbums }
+  { fetchAlbums, removePhotos }
 )(ListPublic);

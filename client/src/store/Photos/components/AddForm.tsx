@@ -1,13 +1,13 @@
 import React, { Component, FormEvent } from "react";
 import { connect } from "react-redux";
-import { addPhoto } from "../actions";
+import { addPhotos } from "../actions";
 import AlbumAddForm from "../../Albums/components/AlbumAddForm";
 import { fetchAlbums } from "../../Albums/actions";
 import { Album } from "../../Albums/types";
 
 interface Iprops {
   albums: Album[];
-  addPhoto(data: any): void;
+  addPhotos(data: any): void;
   fetchAlbums(data: any): void;
 }
 
@@ -45,15 +45,18 @@ class AddForm extends Component<Iprops, Istate> {
     });
   };
   addHandler = (event: FormEvent<HTMLInputElement>): void => {
-    const { addPhoto } = this.props;
+    const { addPhotos } = this.props;
     const { albumId } = this.state;
     event.preventDefault();
 
     if (albumId !== "") {
-      addPhoto(this.state);
+      addPhotos(this.state);
     }
   };
   componentDidMount() {
+    this.props.fetchAlbums("public");
+  }
+  componentDidUpdate() {
     this.props.fetchAlbums("public");
   }
   render() {
@@ -127,5 +130,5 @@ const mapStateToProps = (state: any) => {
 
 export default connect(
   mapStateToProps,
-  { addPhoto, fetchAlbums }
+  { addPhotos, fetchAlbums }
 )(AddForm);
