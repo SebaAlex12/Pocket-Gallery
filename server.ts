@@ -2,7 +2,7 @@ import express = require("express");
 import mongoose = require("mongoose");
 import bodyParser = require("body-parser");
 import multer = require("multer");
-const path = require("path");
+import path = require("path");
 
 import graphqlHttp = require("express-graphql");
 import graphqlSchema = require("./graphql/schema");
