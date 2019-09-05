@@ -23,9 +23,10 @@ class AlbumItem extends Component<Iprops, Istate> {
   render() {
     const { album, removePhotosHandler, checkIfChecked } = this.props;
     const { albumToggle } = this.state;
-
     let photos;
-    if (album.photos.length > 0) {
+    const photosNumber = album.photos.length;
+
+    if (photosNumber > 0) {
       photos = album.photos.map(photo => {
         let imageUrl = `/photos/albums/${album._id}/${photo}`;
         return (
@@ -40,11 +41,14 @@ class AlbumItem extends Component<Iprops, Istate> {
     }
 
     return (
-      <div>
+      <div className="album-box">
         <h2>
-          {album.title}{" "}
+          <button type="button" className="btn btn-primary mr-3">
+            photos <span className="badge badge-light">{photosNumber}</span>
+          </button>
+          {album.title}
           <span
-            className="dropdown-toggle"
+            className="dropdown-toggle ml-2 mr-2"
             style={{ cursor: "pointer" }}
             onClick={() =>
               this.setState({

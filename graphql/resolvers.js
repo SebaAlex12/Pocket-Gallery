@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const Photo = require("../models/Photo");
+// const Photo = require("../models/Photo");
 const Album = require("../models/Album");
 
 //user authorization
@@ -54,33 +54,6 @@ module.exports = {
 
     return { ...userData._doc, _id: userData._id.toString(), token: token };
   },
-  addPhoto: async function({ photoInput }, req) {
-    const photo = new Photo({
-      title: photoInput.title,
-      description: photoInput.description,
-      imageUrl: photoInput.imageUrl,
-      status: photoInput.status,
-      createdAt: photoInput.createdAt
-    });
-
-    const storedPhoto = await photo.save();
-
-    return { ...storedPhoto._doc, _id: storedPhoto._id.toString() };
-  },
-  fetchPhotos: async function({ album, category, user, status }) {
-    const params = {
-      status: status
-    };
-
-    if (album && album !== "undefined") params.album = album;
-    if (category && category !== "undefined") params.category = category;
-
-    // console.log(params);
-
-    const photos = await Photo.find(params);
-
-    return photos;
-  },
   fetchAlbums: async function({ status }) {
     const params = {
       status: status
@@ -88,9 +61,9 @@ module.exports = {
 
     let albums = await Album.find(params);
 
-    const newAlbums = albums.map(album => {
+    const newAlbums = albums.map(async album => {
       let path = "./client/public/photos/albums/" + album._id;
-      album.photos = fsPromises.readdir(path);
+      album.photos = await fsPromises.readdir(path);
       return album;
     });
 
@@ -114,6 +87,31 @@ module.exports = {
       console.log("path already exists");
     }
 
-    return { ...storedAlbum._doc, _id: storedAlbum._id.toString() };
+    return { ...storedAlbum._doc, _id: storedAlbum._id.toString(), photos: [] };
   }
+  // addPhoto: async function({ photoInput }, req) {
+  //   const photo = new Photo({
+  //     title: photoInput.title,
+  //     description: photoInput.description,
+  //     imageUrl: photoInput.imageUrl,
+  //     status: photoInput.status,
+  //     createdAt: photoInput.createdAt
+  //   });
+
+  //   const storedPhoto = await photo.save();
+
+  //   return { ...storedPhoto._doc, _id: storedPhoto._id.toString() };
+  // },
+  // fetchPhotos: async function({ album, category, user, status }) {
+  //   const params = {
+  //     status: status
+  //   };
+
+  //   if (album && album !== "undefined") params.album = album;
+  //   if (category && category !== "undefined") params.category = category;
+
+  //   const photos = await Photo.find(params);
+
+  //   return photos;
+  // },
 };

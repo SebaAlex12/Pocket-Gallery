@@ -37,7 +37,8 @@ export const loginUser = (data: any) => {
           type: ActionTypes.setUser,
           payload: loginUser
         });
-      });
+      })
+      .catch(err => console.log(err));
   };
 };
 
@@ -72,7 +73,8 @@ export const registerUser = (userData: any) => {
           type: ActionTypes.setUser,
           payload: createUser
         });
-      });
+      })
+      .catch(err => console.log(err));
   };
 };
 

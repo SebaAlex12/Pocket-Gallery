@@ -14,6 +14,10 @@ export const albumsReducer = (
         ...state,
         albums: action.payload
       };
+    case ActionTypes.addAlbum:
+      return {
+        albums: [...state.albums, action.payload]
+      };
     default:
       return state;
   }

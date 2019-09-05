@@ -1,15 +1,14 @@
 import React from "react";
 
 interface Iprops {
-  key: string | number;
   imageUrl: string;
   photo: string;
   checkIfChecked(): void;
 }
 
-function ListItem({ imageUrl, key, checkIfChecked }: Iprops) {
+function ListItem({ imageUrl, checkIfChecked }: Iprops) {
   return (
-    <div className="photo-card col-lg-3" key={key}>
+    <div className="photo-card col-lg-3">
       <figure className="figure">
         <a
           href={imageUrl}

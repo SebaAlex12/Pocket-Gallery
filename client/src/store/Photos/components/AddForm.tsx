@@ -44,21 +44,17 @@ class AddForm extends Component<Iprops, Istate> {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  addHandler = (event: FormEvent<HTMLInputElement>): void => {
+  addHandler = (event: FormEvent<HTMLInputElement>) => {
     const { addPhotos } = this.props;
     const { albumId } = this.state;
     event.preventDefault();
 
     if (albumId !== "") {
       addPhotos(this.state);
+      this.props.fetchAlbums("public");
     }
   };
-  componentDidMount() {
-    this.props.fetchAlbums("public");
-  }
-  componentDidUpdate() {
-    this.props.fetchAlbums("public");
-  }
+
   render() {
     const { albums } = this.props;
     const { albumToggle } = this.state;

@@ -32,7 +32,7 @@ class AlbumAddForm extends Component<Iprops, Istate> {
   };
   addHandler = (event: FormEvent<HTMLInputElement>): void => {
     const { addAlbum } = this.props;
-    const { name, title, description, status } = this.state;
+    const { title, description, status } = this.state;
 
     const data = {
       name: title.replace(/ /g, "-"),

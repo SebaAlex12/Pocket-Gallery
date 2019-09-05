@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import axios from "axios";
-import { Album, ActionTypes, FetchAlbumsAction } from "./types";
+import { Album, ActionTypes, FetchAlbumsAction, AddAlbumAction } from "./types";
 
 export const fetchAlbums = (data: any) => {
   const status = !data.status ? "public" : data.status;
@@ -30,7 +30,8 @@ export const fetchAlbums = (data: any) => {
           type: ActionTypes.fetchAlbums,
           payload: res.data.data.fetchAlbums
         });
-      });
+      })
+      .catch(err => console.log(err));
   };
 };
 
@@ -44,9 +45,13 @@ export const addAlbum = (data: any) => {
     }", description: "${data.description}", status: "${
       data.status
     }", createdAt: "${presentDate.toDateString()}"}){
-        _id
-        title
-        name
+      _id
+      name
+      title
+      description
+      status
+      photos
+      createdAt
       }
     }`
   };
@@ -55,6 +60,12 @@ export const addAlbum = (data: any) => {
       .post("/graphql", JSON.stringify(graph), {
         headers: { "Content-Type": "application/json" }
       })
-      .then(res => console.log("album has been added"));
+      .then(res => {
+        dispatch<AddAlbumAction>({
+          type: ActionTypes.addAlbum,
+          payload: res.data.data.addAlbum
+        });
+      })
+      .catch(err => console.log(err));
   };
 };

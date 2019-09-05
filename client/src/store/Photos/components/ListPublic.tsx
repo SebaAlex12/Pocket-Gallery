@@ -1,4 +1,4 @@
-import React, { Component, FormEvent } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchAlbums } from "../../Albums/actions";
 import { Album } from "../../Albums/types";
@@ -64,22 +64,17 @@ class ListPublic extends Component<Iprops, Istate> {
     } else {
       albumsContent = albums.map(album => {
         return (
-          <section>
-            <AlbumItem
-              album={album}
-              removePhotosHandler={this.removePhotosHandler} // callback function to listItemNav
-              checkIfChecked={this.checkIfChecked} // callback function to listItem
-            />
-          </section>
+          <AlbumItem
+            key={album._id}
+            album={album}
+            removePhotosHandler={this.removePhotosHandler} // callback function to listItemNav
+            checkIfChecked={this.checkIfChecked} // callback function to listItem
+          />
         );
       });
     }
 
-    return (
-      <div className="mt-3 mb-3">
-        <div className="">{albumsContent}</div>
-      </div>
-    );
+    return <div className="mt-3 mb-3">{albumsContent}</div>;
   }
 }
 
