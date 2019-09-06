@@ -44,14 +44,14 @@ class AddForm extends Component<Iprops, Istate> {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  addHandler = (event: FormEvent<HTMLInputElement>) => {
+  addHandler = async (event: FormEvent<HTMLInputElement>) => {
     const { addPhotos } = this.props;
     const { albumId } = this.state;
     event.preventDefault();
 
     if (albumId !== "") {
-      addPhotos(this.state);
-      this.props.fetchAlbums("public");
+      await addPhotos(this.state);
+      await this.props.fetchAlbums("public");
     }
   };
 
@@ -71,8 +71,8 @@ class AddForm extends Component<Iprops, Istate> {
           Add album
         </button>
         {albumToggle ? <AlbumAddForm /> : null}
-        <h2>Add Image</h2>
-        <div className="clearfix pt-5 pb-5">
+        <h2>Add Images</h2>
+        <div className="clearfix">
           <form action="" method="post" encType="multipart/form-data">
             <div className="form-group">
               <select

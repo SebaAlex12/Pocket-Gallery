@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import axios from "axios";
-import { Album, ActionTypes, FetchAlbumsAction, AddAlbumAction } from "./types";
+import { ActionTypes, FetchAlbumsAction, AddAlbumAction } from "./types";
 
 export const fetchAlbums = (data: any) => {
   const status = !data.status ? "public" : data.status;

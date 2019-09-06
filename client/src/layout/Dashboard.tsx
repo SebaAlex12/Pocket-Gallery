@@ -37,7 +37,7 @@ class Dashboard extends Component<Iprops, Istate> {
               })
             }
           >
-            Add image
+            Add images
           </button>
           <button
             className="btn btn-secondary ml-1"

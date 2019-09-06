@@ -30,28 +30,46 @@ class ListPublic extends Component<Iprops, Istate> {
       selected: []
     });
   }
+  removePhotosHandler = async () => {
+    const { removePhotos, fetchAlbums } = this.props;
+    const { selected } = this.state;
+
+    await removePhotos(selected);
+    await fetchAlbums("public");
+    this.setState({
+      selected: []
+    });
+  };
   checkIfChecked = (item: string) => {
     const { selected } = this.state;
 
-    let newSelected = [];
-
-    newSelected =
+    const newSelected =
       selected.includes(item) === true
-        ? selected.filter((el: any) => el !== item)
+        ? selected.filter((element: any) => element !== item)
         : [...selected, item];
 
     this.setState({
       selected: newSelected
     });
   };
-  removePhotosHandler = () => {
-    const { removePhotos, fetchAlbums } = this.props;
+  checkAllPhotosHandler = (album: Album) => {
+    console.log(album);
+  };
+  unCheckAllPhotosHandler = (album: Album) => {
     const { selected } = this.state;
+    const imageUrl = `/photos/albums/${album._id}/`;
 
-    removePhotos(selected);
-    fetchAlbums("public");
+    const photos = album.photos.map((photo: any) => imageUrl + photo);
+
+    // console.log(album);
+    // console.log("photos", photos);
+    // console.log(selected);
+    const newSelected = selected.filter((element: never) =>
+      photos.includes(element) !== true ? element : null
+    );
+    console.log("new selected", newSelected);
     this.setState({
-      selected: []
+      selected: newSelected
     });
   };
   render() {
@@ -68,6 +86,8 @@ class ListPublic extends Component<Iprops, Istate> {
             key={album._id}
             album={album}
             removePhotosHandler={this.removePhotosHandler} // callback function to listItemNav
+            checkAllPhotosHandler={this.checkAllPhotosHandler} // callback function to listItemNav
+            unCheckAllPhotosHandler={this.unCheckAllPhotosHandler} // callback function to listItemNav
             checkIfChecked={this.checkIfChecked} // callback function to listItem
           />
         );

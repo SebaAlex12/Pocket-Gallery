@@ -31,7 +31,7 @@ class Landing extends Component<Iprops, Istate> {
               })
             }
           >
-            Add image
+            Add images
           </button>
         </nav>
         <div

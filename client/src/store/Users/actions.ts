@@ -1,7 +1,7 @@
 import { Dispatch } from "redux";
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
-import { User, SetUserAction, ActionTypes } from "./types";
+import { SetUserAction, ActionTypes } from "./types";
 
 export const loginUser = (data: any) => {
   return async (dispatch: Dispatch) => {

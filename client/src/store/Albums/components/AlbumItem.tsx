@@ -6,6 +6,8 @@ import { Album } from "../../Albums/types";
 interface Iprops {
   album: Album;
   removePhotosHandler(): void;
+  checkAllPhotosHandler(album: Album): void;
+  unCheckAllPhotosHandler(album: Album): void;
   checkIfChecked(data: string): void;
 }
 
@@ -21,7 +23,13 @@ class AlbumItem extends Component<Iprops, Istate> {
     };
   }
   render() {
-    const { album, removePhotosHandler, checkIfChecked } = this.props;
+    const {
+      album,
+      removePhotosHandler,
+      checkAllPhotosHandler,
+      unCheckAllPhotosHandler,
+      checkIfChecked
+    } = this.props;
     const { albumToggle } = this.state;
     let photos;
     const photosNumber = album.photos.length;
@@ -59,8 +67,14 @@ class AlbumItem extends Component<Iprops, Istate> {
         </h2>
         {albumToggle ? (
           <div>
-            <ListItemNav removePhotosHandler={removePhotosHandler} />
-            <div className="row">{photos}</div>
+            <ListItemNav
+              removePhotosHandler={removePhotosHandler}
+              checkAllPhotosHandler={() => checkAllPhotosHandler(album)}
+              unCheckAllPhotosHandler={() => unCheckAllPhotosHandler(album)}
+            />
+            <div id="photos-list" className="row">
+              {photos}
+            </div>
           </div>
         ) : null}
       </div>

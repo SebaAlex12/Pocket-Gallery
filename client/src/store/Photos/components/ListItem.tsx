@@ -19,7 +19,7 @@ function ListItem({ imageUrl, checkIfChecked }: Iprops) {
         </a>
         <figcaption className="figure-caption text-right" />
       </figure>
-      <input onChange={checkIfChecked} type="checkbox" />
+      <input onChange={checkIfChecked} type="checkbox" name={imageUrl} />
     </div>
   );
 }
