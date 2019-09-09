@@ -9,6 +9,7 @@ interface Iprops {
 function ListItem({ imageUrl, checkIfChecked }: Iprops) {
   return (
     <div className="photo-card col-lg-3">
+      <input onChange={checkIfChecked} type="checkbox" />
       <figure className="figure">
         <a
           href={imageUrl}
@@ -19,7 +20,6 @@ function ListItem({ imageUrl, checkIfChecked }: Iprops) {
         </a>
         <figcaption className="figure-caption text-right" />
       </figure>
-      <input onChange={checkIfChecked} type="checkbox" name={imageUrl} />
     </div>
   );
 }

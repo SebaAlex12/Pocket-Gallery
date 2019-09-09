@@ -53,17 +53,50 @@ class ListPublic extends Component<Iprops, Istate> {
     });
   };
   checkAllPhotosHandler = (album: Album) => {
-    console.log(album);
+    const { selected } = this.state;
+    const albumListId = `album-list-${album._id}`;
+    const imageUrl = `/photos/albums/${album._id}/`;
+    const photos = album.photos.map((photo: any) => imageUrl + photo);
+
+    let newSelected = selected;
+
+    // check all checkboxes
+    const checkboxes = document.querySelectorAll(
+      `#${albumListId} input[type=checkbox]`
+    );
+
+    checkboxes.forEach(checkbox => {
+      const checkboxInput = checkbox as HTMLInputElement;
+      checkboxInput.checked = true;
+    });
+
+    photos.forEach((photo: any) => {
+      if (selected.includes(photo) !== true) {
+        newSelected.push(photo);
+      }
+    });
+
+    console.log("new selected", newSelected);
+    this.setState({
+      selected: newSelected
+    });
   };
   unCheckAllPhotosHandler = (album: Album) => {
     const { selected } = this.state;
+    const albumListId = `album-list-${album._id}`;
     const imageUrl = `/photos/albums/${album._id}/`;
-
     const photos = album.photos.map((photo: any) => imageUrl + photo);
 
-    // console.log(album);
-    // console.log("photos", photos);
-    // console.log(selected);
+    // uncheck all checkboxes
+    const checkboxes = document.querySelectorAll(
+      `#${albumListId} input[type=checkbox]`
+    );
+
+    checkboxes.forEach(checkbox => {
+      const checkboxInput = checkbox as HTMLInputElement;
+      checkboxInput.checked = false;
+    });
+
     const newSelected = selected.filter((element: never) =>
       photos.includes(element) !== true ? element : null
     );

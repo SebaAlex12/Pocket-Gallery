@@ -72,7 +72,7 @@ class AlbumItem extends Component<Iprops, Istate> {
               checkAllPhotosHandler={() => checkAllPhotosHandler(album)}
               unCheckAllPhotosHandler={() => unCheckAllPhotosHandler(album)}
             />
-            <div id="photos-list" className="row">
+            <div id={`album-list-${album._id}`} className="row">
               {photos}
             </div>
           </div>
