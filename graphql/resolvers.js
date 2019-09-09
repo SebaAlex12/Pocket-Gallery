@@ -5,6 +5,7 @@ const Album = require("../models/Album");
 //user authorization
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const jwtDecode = require("jwt-decode");
 
 const fs = require("fs");
 const fsPromises = fs.promises;
@@ -54,11 +55,24 @@ module.exports = {
 
     return { ...userData._doc, _id: userData._id.toString(), token: token };
   },
-  fetchAlbums: async function({ status }) {
-    const params = {
-      status: status
-    };
+  fetchAlbums: async function({ status, access }) {
+    let newAccess = "";
+    if (access) {
+      const jwtDecodedString = jwtDecode(access);
+      newAccess = jwtDecodedString.data.access;
+    }
 
+    // console.log("jwt", access);
+    // const jwtDecodedString = jwtDecode(access);
+    // console.log("jwt-decode", jwtDecodedString.data.access);
+    // const newAccess = bcrypt.hash(jwtDecodedString.data.access, 14);
+    // console.log("bcrypt", newAccess);
+
+    const params = {
+      status,
+      access: newAccess
+    };
+    console.log("params", params);
     let albums = await Album.find(params);
 
     const newAlbums = albums.map(async album => {
@@ -73,8 +87,9 @@ module.exports = {
     const album = new Album({
       name: albumInput.name,
       title: albumInput.title,
+      access: albumInput.access,
       description: albumInput.description,
-      status: albumInput.status,
+      status: albumInput.access ? "private" : albumInput.status,
       createdAt: albumInput.createdAt
     });
 

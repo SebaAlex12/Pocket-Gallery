@@ -7,11 +7,10 @@ import { removePhotos } from "../../Photos/actions";
 
 interface Iprops {
   albums: Album[];
-  fetchAlbums(data: any): void;
+  fetchAlbums(): void;
   removePhotos(data: any): void;
 }
 interface Istate {
-  status: String;
   selected: any;
 }
 
@@ -19,12 +18,12 @@ class ListPublic extends Component<Iprops, Istate> {
   constructor(props: Iprops) {
     super(props);
     this.state = {
-      status: "public",
       selected: []
     };
   }
   componentDidMount() {
-    this.props.fetchAlbums(this.state.status);
+    const { fetchAlbums } = this.props;
+    fetchAlbums();
     // console.log("component did mount");
     this.setState({
       selected: []
@@ -35,7 +34,7 @@ class ListPublic extends Component<Iprops, Istate> {
     const { selected } = this.state;
 
     await removePhotos(selected);
-    await fetchAlbums("public");
+    await fetchAlbums();
     this.setState({
       selected: []
     });

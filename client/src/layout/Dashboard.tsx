@@ -25,7 +25,7 @@ class Dashboard extends Component<Iprops, Istate> {
   render() {
     const { registryToggle, loginToggle, addImageToggle } = this.state;
     return (
-      <div>
+      <div className="clearfix" style={{ clear: "both" }}>
         <nav className="float-right text-right ">
           <button
             className="btn btn-secondary ml-1"

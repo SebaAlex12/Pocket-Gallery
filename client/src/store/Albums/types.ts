@@ -2,6 +2,7 @@ export interface Album {
   _id: string;
   name: string;
   title: string;
+  access: string;
   description: string;
   status: string;
   photos: [];

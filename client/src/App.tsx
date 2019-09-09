@@ -8,6 +8,7 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { reducers } from "./store/index";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import AlbumLoginForm from "./store/Albums/components/AlbumLoginForm";
 import Dashboard from "./layout/Dashboard";
 import Landing from "./layout/Landing";
 
@@ -23,9 +24,12 @@ function App() {
         <div className="container">
           <div className="row">
             <div className="col-lg-12">
-              <h1>Pocket Gallery</h1>
               {!localStorage.jwtToken || localStorage.jwtToken === undefined ? (
-                <Dashboard />
+                <div className="logout-box">
+                  <h1 className="float-left">Pocket Gallery</h1>
+                  <AlbumLoginForm />
+                  <Dashboard />
+                </div>
               ) : (
                 <Landing />
               )}

@@ -2,16 +2,40 @@ import { Dispatch } from "redux";
 import axios from "axios";
 import { ActionTypes, FetchAlbumsAction, AddAlbumAction } from "./types";
 
-export const fetchAlbums = (data: any) => {
-  const status = !data.status ? "public" : data.status;
+// Albums authorization token
+import jwt from "jsonwebtoken";
+import setAlbumAuthToken from "../../utils/setAlbumAuthToken";
+
+export const loginAlbum = (access: any) => {
+  const token = jwt.sign(
+    { data: { access: access } },
+    "secretkeyokeyforalbums",
+    {
+      expiresIn: "1h"
+    }
+  );
+  // localStorage.setItem("jwtTokenAlbums", token);
+  sessionStorage.setItem("jwtTokenAlbums", token);
+  setAlbumAuthToken(token);
+
+  return async (dispatch: Dispatch) => {};
+};
+
+export const fetchAlbums = () => {
+  const jwtTokenAlbums = sessionStorage.getItem("jwtTokenAlbums");
+
+  // if token is set status will always be private
+  const status = jwtTokenAlbums ? "private" : "public";
+  const access = jwtTokenAlbums ? jwtTokenAlbums : "";
 
   const graph = {
     query: `
       query {
-        fetchAlbums(status: "${status}"){
+        fetchAlbums(status: "${status}", access: "${access}"){
           _id
           name
           title
+          access
           description
           status
           photos
@@ -20,6 +44,7 @@ export const fetchAlbums = (data: any) => {
       }
       `
   };
+
   return async (dispatch: Dispatch) => {
     await axios
       .post("/graphql", JSON.stringify(graph), {
@@ -42,9 +67,9 @@ export const addAlbum = (data: any) => {
     query: `mutation {
       addAlbum(albumInput: { name: "${data.name}", title: "${
       data.title
-    }", description: "${data.description}", status: "${
-      data.status
-    }", createdAt: "${presentDate.toDateString()}"}){
+    }", access: "${data.access}", description: "${
+      data.description
+    }", status: "${data.status}", createdAt: "${presentDate.toDateString()}"}){
       _id
       name
       title

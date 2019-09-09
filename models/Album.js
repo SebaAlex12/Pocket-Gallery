@@ -7,6 +7,10 @@ const AlbumSchema = new Schema({
     required: true
   },
   title: {
+    type: String,
+    required: true
+  },
+  access: {
     type: String
   },
   description: {

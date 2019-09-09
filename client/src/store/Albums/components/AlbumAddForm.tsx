@@ -8,6 +8,7 @@ interface Iprops {
 interface Istate {
   name: String;
   title: String;
+  access: String;
   description: String;
   status: String;
   createdAt: String;
@@ -19,6 +20,7 @@ class AlbumAddForm extends Component<Iprops, Istate> {
     this.state = {
       name: "",
       title: "",
+      access: "",
       description: "",
       status: "public",
       createdAt: ""
@@ -32,11 +34,12 @@ class AlbumAddForm extends Component<Iprops, Istate> {
   };
   addHandler = (event: FormEvent<HTMLInputElement>): void => {
     const { addAlbum } = this.props;
-    const { title, description, status } = this.state;
+    const { title, access, description, status } = this.state;
 
     const data = {
       name: title.replace(/ /g, "-"),
       title,
+      access,
       description,
       status
     };
@@ -54,6 +57,15 @@ class AlbumAddForm extends Component<Iprops, Istate> {
               onChange={this.onChangeInput}
               type="text"
               name="title"
+              className="form-control"
+            />
+          </div>
+          <div className="form-group form-row">
+            <label htmlFor="access">Access:</label>
+            <input
+              onChange={this.onChangeInput}
+              type="password"
+              name="access"
               className="form-control"
             />
           </div>
