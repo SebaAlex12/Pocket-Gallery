@@ -3,7 +3,7 @@ const User = require("../models/User");
 const Album = require("../models/Album");
 
 //user authorization
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcrypt-nodejs");
 const jwt = require("jsonwebtoken");
 const jwtDecode = require("jwt-decode");
 
@@ -69,7 +69,10 @@ module.exports = {
 
     const newAlbums = albums.map(async album => {
       let path = "./client/public/photos/albums/" + album._id;
-      album.photos = await fsPromises.readdir(path);
+      const photos = await fsPromises.readdir(path);
+      // console.log(photos);
+      album.photos = photos.filter(photo => photo != "mini");
+      // album.photos = await fsPromises.readdir(path);
       return album;
     });
 
@@ -92,6 +95,14 @@ module.exports = {
       fs.mkdirSync(path);
     } else {
       console.log("path already exists");
+    }
+
+    const miniPath =
+      "./client/public/photos/albums/" + storedAlbum._id + "/mini/";
+    if (!fs.existsSync(miniPath)) {
+      fs.mkdirSync(miniPath);
+    } else {
+      console.log("miniPath already exists");
     }
 
     return { ...storedAlbum._doc, _id: storedAlbum._id.toString(), photos: [] };

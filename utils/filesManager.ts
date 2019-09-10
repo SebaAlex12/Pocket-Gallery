@@ -1,5 +1,6 @@
 import multer = require("multer");
 import fs = require("fs");
+import sharp = require("sharp");
 
 // Set storage engine
 const storage = multer.diskStorage({
@@ -41,17 +42,17 @@ function sanitizeFile(file, cb) {
   }
 }
 
-// export const resize(path, format, width, height) {
-//   const readStream = fs.createReadStream(path)
-//   let transform = sharp()
+export const resize = (path, format, width, height) => {
+  const readStream = fs.createReadStream(path);
+  let transform = sharp();
 
-//   if (format) {
-//     transform = transform.toFormat(format)
-//   }
+  if (format) {
+    transform = transform.toFormat(format);
+  }
 
-//   if (width || height) {
-//     transform = transform.resize(width, height)
-//   }
+  if (width || height) {
+    transform = transform.resize(width, height);
+  }
 
-//   return readStream.pipe(transform)
-// }
+  return readStream.pipe(transform);
+};

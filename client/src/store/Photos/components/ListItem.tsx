@@ -7,6 +7,8 @@ interface Iprops {
 }
 
 function ListItem({ imageUrl, checkIfChecked }: Iprops) {
+  const arr = imageUrl.split("/");
+  const miniLink = [arr[1], arr[2], arr[3], "mini", arr[4]].join("/");
   return (
     <div className="photo-card col-lg-3">
       <input onChange={checkIfChecked} type="checkbox" />
@@ -16,7 +18,7 @@ function ListItem({ imageUrl, checkIfChecked }: Iprops) {
           data-lightbox="gallery-01"
           data-title="Image caption"
         >
-          <img src={imageUrl} className="figure-img img-fluid rounded" alt="" />
+          <img src={miniLink} className="figure-img img-fluid rounded" alt="" />
         </a>
         <figcaption className="figure-caption text-right" />
       </figure>

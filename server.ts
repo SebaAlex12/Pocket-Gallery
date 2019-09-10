@@ -7,7 +7,7 @@ import graphqlHttp = require("express-graphql");
 import graphqlSchema = require("./graphql/schema");
 import graphqlResolver = require("./graphql/resolvers");
 
-import { upload } from "./utils/filesManager";
+import { upload, resize } from "./utils/filesManager";
 
 const app: express.Application = express();
 
@@ -43,7 +43,16 @@ app.post("/upload-image/:dest", async (req: any, res) => {
         res.json("No file selected!");
       } else {
         console.log("Files uploaded successfully!");
-        console.log("req files", req.files);
+        // console.log("req files", req.files);
+        req.files.forEach(file => {
+          const readStream = resize(file.path, "jpg", 300, 300);
+          readStream.toFile(
+            file.destination + "/mini/" + file.filename,
+            function(err) {
+              console.log(err);
+            }
+          );
+        });
         res.json("Files uploaded successfully!");
       }
     }
@@ -54,8 +63,16 @@ app.post("/delete-image/", bodyParserJson, (req: any, res) => {
   console.log(req.body.links);
   const links = req.body.links;
   links.forEach(async link => {
+    // build link for mini folder
+    const arr = link.split("/");
+    const miniLink = [arr[1], arr[2], arr[3], "mini", arr[4]].join("/");
+    console.log("miniLink", miniLink);
     try {
       await fs.unlink("./client/public/" + link, function(err) {
+        if (err) throw err;
+        console.log("File deleted!");
+      });
+      await fs.unlink("./client/public/" + miniLink, function(err) {
         if (err) throw err;
         console.log("File deleted!");
       });
