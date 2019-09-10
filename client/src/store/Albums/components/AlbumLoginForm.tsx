@@ -1,14 +1,14 @@
 import React, { Component, FormEvent } from "react";
 import { connect } from "react-redux";
 
-import { loginAlbum, fetchAlbums } from "../actions";
+import { loginAlbums, fetchAlbums } from "../actions";
 
 interface Istate {
   access: string;
 }
 
 interface Iprops {
-  loginAlbum(data: any): void;
+  loginAlbums(data: any): void;
   fetchAlbums(): void;
 }
 
@@ -26,23 +26,28 @@ class AlbumLoginForm extends Component<Iprops, Istate> {
     });
   };
   onSubmitHandler = async (event: FormEvent<HTMLInputElement>) => {
-    const { loginAlbum, fetchAlbums } = this.props;
+    const { loginAlbums, fetchAlbums } = this.props;
     const { access } = this.state;
     event.preventDefault();
 
-    loginAlbum(access);
+    loginAlbums(access);
     fetchAlbums();
-    console.log("after fetch");
+
+    const input = document.querySelector(
+      "#albumLoginForm input[type=password]"
+    ) as HTMLInputElement;
+    input.value = "";
   };
   render() {
     return (
       <div className="float-right mt-2">
-        <form className="form-inline" action="">
+        <form id="albumLoginForm" className="form-inline" action="">
           <div className="form-group">
             <input
               type="password"
               onChange={this.onChangeInput}
               className="form-control"
+              placeholder="check access token"
               name="access"
             />
           </div>
@@ -66,5 +71,5 @@ const mapStateToProps = (state: any) => {
 
 export default connect(
   mapStateToProps,
-  { loginAlbum, fetchAlbums }
+  { loginAlbums, fetchAlbums }
 )(AlbumLoginForm);

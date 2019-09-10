@@ -4,21 +4,27 @@ import { ActionTypes, FetchAlbumsAction, AddAlbumAction } from "./types";
 
 // Albums authorization token
 import jwt from "jsonwebtoken";
-import setAlbumAuthToken from "../../utils/setAlbumAuthToken";
+// import setAlbumAuthToken from "../../utils/setAlbumAuthToken";
 
-export const loginAlbum = (access: any) => {
-  const token = jwt.sign(
-    { data: { access: access } },
-    "secretkeyokeyforalbums",
-    {
-      expiresIn: "1h"
-    }
-  );
-  // localStorage.setItem("jwtTokenAlbums", token);
-  sessionStorage.setItem("jwtTokenAlbums", token);
-  setAlbumAuthToken(token);
+export const loginAlbums = (access: any) => {
+  return async (dispatch: Dispatch) => {
+    const token = jwt.sign(
+      { data: { access: access } },
+      "secretkeyokeyforalbums",
+      {
+        expiresIn: "1h"
+      }
+    );
+    // localStorage.setItem("jwtTokenAlbums", token);
+    sessionStorage.setItem("jwtTokenAlbums", token);
+    // setAlbumAuthToken(token);
+  };
+};
 
-  return async (dispatch: Dispatch) => {};
+export const logoutAlbums = () => {
+  return async (dispatch: Dispatch) => {
+    await sessionStorage.removeItem("jwtTokenAlbums");
+  };
 };
 
 export const fetchAlbums = () => {

@@ -54,7 +54,7 @@ class AlbumItem extends Component<Iprops, Istate> {
           <button type="button" className="btn btn-primary mr-3">
             photos <span className="badge badge-light">{photosNumber}</span>
           </button>
-          {album.title}
+          {`${album.title} / ${album.status}`}
           <span
             className="dropdown-toggle ml-2 mr-2"
             style={{ cursor: "pointer" }}

@@ -34,7 +34,6 @@ mongoose
 // Handle the upload image
 app.post("/upload-image/:dest", async (req: any, res) => {
   upload(req, res, err => {
-    console.log("req files", req.files);
     if (err) {
       console.log("error message:", err);
       res.json(err);
@@ -44,6 +43,7 @@ app.post("/upload-image/:dest", async (req: any, res) => {
         res.json("No file selected!");
       } else {
         console.log("Files uploaded successfully!");
+        console.log("req files", req.files);
         res.json("Files uploaded successfully!");
       }
     }

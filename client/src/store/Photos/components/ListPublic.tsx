@@ -75,7 +75,7 @@ class ListPublic extends Component<Iprops, Istate> {
       }
     });
 
-    console.log("new selected", newSelected);
+    // console.log("new selected", newSelected);
     this.setState({
       selected: newSelected
     });
@@ -99,7 +99,7 @@ class ListPublic extends Component<Iprops, Istate> {
     const newSelected = selected.filter((element: never) =>
       photos.includes(element) !== true ? element : null
     );
-    console.log("new selected", newSelected);
+    // console.log("new selected", newSelected);
     this.setState({
       selected: newSelected
     });
@@ -110,7 +110,8 @@ class ListPublic extends Component<Iprops, Istate> {
     let albumsContent;
 
     if (albums === null || albums.length === 0) {
-      albumsContent = "Loading ...";
+      albumsContent =
+        "Loading ... - if loading takes too long try clear access token because the token you are checking probably does not exist";
     } else {
       albumsContent = albums.map(album => {
         return (

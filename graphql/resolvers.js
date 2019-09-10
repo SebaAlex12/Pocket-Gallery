@@ -61,19 +61,11 @@ module.exports = {
       const jwtDecodedString = jwtDecode(access);
       newAccess = jwtDecodedString.data.access;
     }
-
-    // console.log("jwt", access);
-    // const jwtDecodedString = jwtDecode(access);
-    // console.log("jwt-decode", jwtDecodedString.data.access);
-    // const newAccess = bcrypt.hash(jwtDecodedString.data.access, 14);
-    // console.log("bcrypt", newAccess);
-
     const params = {
       status,
       access: newAccess
     };
-    console.log("params", params);
-    let albums = await Album.find(params);
+    const albums = await Album.find(params);
 
     const newAlbums = albums.map(async album => {
       let path = "./client/public/photos/albums/" + album._id;

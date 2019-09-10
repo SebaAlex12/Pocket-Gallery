@@ -1,9 +1,11 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import ListPublic from "../store/Photos/components/ListPublic";
 import LoginForm from "../store/Users/components/LoginForm";
 import RegistryForm from "../store/Users/components/RegistryForm";
 import AddForm from "../store/Photos/components/AddForm";
-
-import React, { Component } from "react";
+import { fetchAlbums, logoutAlbums } from "../store/Albums/actions";
 
 interface Istate {
   registryToggle: boolean;
@@ -11,7 +13,10 @@ interface Istate {
   addImageToggle: boolean;
 }
 
-interface Iprops {}
+interface Iprops {
+  logoutAlbums(): void;
+  fetchAlbums(): void;
+}
 
 class Dashboard extends Component<Iprops, Istate> {
   constructor(props: Iprops) {
@@ -22,11 +27,22 @@ class Dashboard extends Component<Iprops, Istate> {
       addImageToggle: false
     };
   }
+  clearAccessTokenHandler = async () => {
+    const { fetchAlbums, logoutAlbums } = this.props;
+    await logoutAlbums();
+    await fetchAlbums();
+  };
   render() {
     const { registryToggle, loginToggle, addImageToggle } = this.state;
     return (
       <div className="clearfix" style={{ clear: "both" }}>
         <nav className="float-right text-right ">
+          <button
+            className="btn btn-secondary ml-1"
+            onClick={this.clearAccessTokenHandler}
+          >
+            Clear access token
+          </button>
           <button
             className="btn btn-secondary ml-1"
             onClick={() =>
@@ -83,4 +99,7 @@ class Dashboard extends Component<Iprops, Istate> {
   }
 }
 
-export default Dashboard;
+export default connect(
+  null,
+  { fetchAlbums, logoutAlbums }
+)(Dashboard);
