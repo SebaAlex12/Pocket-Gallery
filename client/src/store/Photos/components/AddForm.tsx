@@ -59,9 +59,9 @@ class AddForm extends Component<Iprops, Istate> {
     const { albums } = this.props;
     const { albumToggle } = this.state;
     return (
-      <div>
+      <React.Fragment>
         <button
-          className="btn btn-secondary float-right mr-1"
+          className="album-button btn btn-secondary float-left mr-1"
           onClick={() =>
             this.setState({
               albumToggle: !albumToggle
@@ -113,7 +113,7 @@ class AddForm extends Component<Iprops, Istate> {
             </div>
           </form>
         </div>
-      </div>
+      </React.Fragment>
     );
   }
 }

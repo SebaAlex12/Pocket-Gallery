@@ -5,6 +5,7 @@ import "react-image-lightbox/style.css";
 import ListItem from "../../Photos/components/ListItem";
 import ListItemNav from "../../Photos/components/ListItemNav";
 import { Album } from "../../Albums/types";
+import "../albums.scss";
 
 interface Iprops {
   album: Album;
@@ -29,10 +30,12 @@ class AlbumItem extends Component<Iprops, Istate> {
       isOpen: false
     };
   }
-  lightboxPhotosHandler(photoIndex: any) {
+  lightboxPhotosHandler(photoIndex: number) {
     const { isOpen } = this.state;
     this.setState({ photoIndex: photoIndex });
     this.setState({ isOpen: !isOpen });
+
+    return false;
   }
   render() {
     const {
@@ -43,6 +46,7 @@ class AlbumItem extends Component<Iprops, Istate> {
       checkIfChecked
     } = this.props;
     const { albumToggle, isOpen, photoIndex } = this.state;
+
     let photos;
     let photosUrls: any;
     photosUrls = [];
@@ -57,7 +61,6 @@ class AlbumItem extends Component<Iprops, Istate> {
         return (
           <ListItem
             key={photo}
-            photo={photo}
             imageUrl={imageUrl}
             checkIfChecked={() => checkIfChecked(imageUrl)}
             lightboxPhotosHandler={() =>
@@ -69,7 +72,7 @@ class AlbumItem extends Component<Iprops, Istate> {
     }
 
     return (
-      <div className="album-box">
+      <div className="albums-album-item mt-2">
         <h2>
           <button type="button" className="btn btn-primary mr-3">
             photos <span className="badge badge-light">{photosNumber}</span>

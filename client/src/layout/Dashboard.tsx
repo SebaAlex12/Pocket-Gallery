@@ -7,6 +7,8 @@ import RegistryForm from "../store/Users/components/RegistryForm";
 import AddForm from "../store/Photos/components/AddForm";
 import { fetchAlbums, logoutAlbums } from "../store/Albums/actions";
 
+import "./dashboard.scss";
+
 interface Istate {
   registryToggle: boolean;
   loginToggle: boolean;
@@ -35,10 +37,10 @@ class Dashboard extends Component<Iprops, Istate> {
   render() {
     const { registryToggle, loginToggle, addImageToggle } = this.state;
     return (
-      <div className="clearfix" style={{ clear: "both" }}>
+      <div className="clearfix dashboard" style={{ clear: "both" }}>
         <nav className="float-right text-right ">
           <button
-            className="btn btn-secondary ml-1"
+            className="btn btn-danger btn-secondary ml-1"
             onClick={this.clearAccessTokenHandler}
           >
             Clear access token
@@ -80,19 +82,33 @@ class Dashboard extends Component<Iprops, Istate> {
             Login
           </button>
         </nav>
-        <div
-          className="flow-box jumbotron"
-          style={{
-            position: "absolute",
-            top: "120px",
-            right: "15px",
-            zIndex: 1000
-          }}
-        >
-          {addImageToggle ? <AddForm /> : null}
-          {registryToggle ? <RegistryForm /> : null}
-          {loginToggle ? <LoginForm /> : null}
-        </div>
+        {addImageToggle || registryToggle || loginToggle ? (
+          <div
+            className="flow-box jumbotron"
+            style={{
+              position: "absolute",
+              top: "120px",
+              right: "15px",
+              zIndex: 1000
+            }}
+          >
+            <button
+              className="btn btn-primary hide"
+              onClick={() =>
+                this.setState({
+                  loginToggle: false,
+                  registryToggle: false,
+                  addImageToggle: false
+                })
+              }
+            >
+              x
+            </button>
+            {addImageToggle ? <AddForm /> : null}
+            {registryToggle ? <RegistryForm /> : null}
+            {loginToggle ? <LoginForm /> : null}
+          </div>
+        ) : null}
         <ListPublic />
       </div>
     );

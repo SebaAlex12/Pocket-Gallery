@@ -40,7 +40,7 @@ class AlbumLoginForm extends Component<Iprops, Istate> {
   };
   render() {
     return (
-      <div className="float-right mt-2">
+      <div className="float-right mb-2">
         <form id="albumLoginForm" className="form-inline" action="">
           <div className="form-group">
             <input

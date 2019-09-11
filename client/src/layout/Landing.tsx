@@ -34,17 +34,19 @@ class Landing extends Component<Iprops, Istate> {
             Add images
           </button>
         </nav>
-        <div
-          className="flow-box jumbotron"
-          style={{
-            position: "absolute",
-            top: "120px",
-            right: "15px",
-            zIndex: 1000
-          }}
-        >
-          {addImageToggle ? <AddForm /> : null}
-        </div>
+        {addImageToggle ? (
+          <div
+            className="flow-box jumbotron"
+            style={{
+              position: "absolute",
+              top: "120px",
+              right: "15px",
+              zIndex: 1000
+            }}
+          >
+            <AddForm />{" "}
+          </div>
+        ) : null}
         <ListPublic />
       </div>
     );

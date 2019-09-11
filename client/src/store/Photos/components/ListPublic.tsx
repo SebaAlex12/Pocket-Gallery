@@ -24,7 +24,6 @@ class ListPublic extends Component<Iprops, Istate> {
   componentDidMount() {
     const { fetchAlbums } = this.props;
     fetchAlbums();
-    // console.log("component did mount");
     this.setState({
       selected: []
     });
@@ -75,7 +74,6 @@ class ListPublic extends Component<Iprops, Istate> {
       }
     });
 
-    // console.log("new selected", newSelected);
     this.setState({
       selected: newSelected
     });
@@ -99,7 +97,7 @@ class ListPublic extends Component<Iprops, Istate> {
     const newSelected = selected.filter((element: never) =>
       photos.includes(element) !== true ? element : null
     );
-    // console.log("new selected", newSelected);
+
     this.setState({
       selected: newSelected
     });

@@ -34,7 +34,7 @@ export default function ListItemNav({
         Uncheck All
       </button>
       <button
-        className="btn btn-success btn-secondary mr-1 mb-2"
+        className="btn btn-primary mr-1 mb-2"
         onClick={lightboxPhotosHandler}
       >
         Show lightbox

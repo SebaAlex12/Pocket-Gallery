@@ -11,6 +11,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AlbumLoginForm from "./store/Albums/components/AlbumLoginForm";
 import Dashboard from "./layout/Dashboard";
 import Landing from "./layout/Landing";
+import "./app.scss";
 
 const store = createStore(
   reducers,
@@ -21,7 +22,7 @@ function App() {
   return (
     <Provider store={store}>
       <Router>
-        <div className="container">
+        <div className="container main-app mt-2">
           <div className="row">
             <div className="col-lg-12">
               {!localStorage.jwtToken || localStorage.jwtToken === undefined ? (
