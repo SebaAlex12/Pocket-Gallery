@@ -4,12 +4,14 @@ interface Iprops {
   removePhotosHandler(): void;
   checkAllPhotosHandler(album: any): void;
   unCheckAllPhotosHandler(album: any): void;
+  lightboxPhotosHandler(photoIndex: any): any;
 }
 
 export default function ListItemNav({
   removePhotosHandler,
   checkAllPhotosHandler,
-  unCheckAllPhotosHandler
+  unCheckAllPhotosHandler,
+  lightboxPhotosHandler
 }: Iprops) {
   return (
     <nav>
@@ -30,6 +32,12 @@ export default function ListItemNav({
         onClick={unCheckAllPhotosHandler}
       >
         Uncheck All
+      </button>
+      <button
+        className="btn btn-success btn-secondary mr-1 mb-2"
+        onClick={lightboxPhotosHandler}
+      >
+        Show lightbox
       </button>
     </nav>
   );
