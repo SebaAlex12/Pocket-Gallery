@@ -28,6 +28,7 @@
     "ts-node-dev": "^1.0.0-pre.40"
   },
   "scripts": {
+    "client-install": "npm install --prefix client",
     "start": "node server.ts",
     "server": "tsnd --respawn server.ts",
     "client": "npm start --prefix client",
