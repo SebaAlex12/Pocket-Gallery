@@ -4,10 +4,12 @@ import { fetchAlbums } from "../../Albums/actions";
 import { Album } from "../../Albums/types";
 import AlbumItem from "../../Albums/components/AlbumItem";
 import { removePhotos } from "../../Photos/actions";
+import { User } from "../../Users/types";
 
 interface Iprops {
   albums: Album[];
-  fetchAlbums(): void;
+  user: User;
+  fetchAlbums(userId: string | null): void;
   removePhotos(data: any): void;
 }
 interface Istate {
@@ -22,18 +24,18 @@ class ListPublic extends Component<Iprops, Istate> {
     };
   }
   componentDidMount() {
-    const { fetchAlbums } = this.props;
-    fetchAlbums();
+    const { fetchAlbums, user } = this.props;
+    fetchAlbums(user._id ? user._id.toString() : null);
     this.setState({
       selected: []
     });
   }
   removePhotosHandler = async () => {
-    const { removePhotos, fetchAlbums } = this.props;
+    const { removePhotos, fetchAlbums, user } = this.props;
     const { selected } = this.state;
 
     await removePhotos(selected);
-    await fetchAlbums();
+    await fetchAlbums(user._id ? user._id.toString() : null);
     this.setState({
       selected: []
     });
@@ -131,6 +133,7 @@ class ListPublic extends Component<Iprops, Istate> {
 
 const mapStateToProps = (state: any) => {
   return {
+    user: state.users.user ? state.users.user : null,
     albums: state.albums.albums
   };
 };

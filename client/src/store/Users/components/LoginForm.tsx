@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../actions";
 
 interface Iprops {
-  loginUser(data: any): void;
+  loginUser(data: any): any;
 }
 
 interface Istate {
@@ -25,15 +25,15 @@ class LoginForm extends Component<Iprops, Istate> {
       [event.currentTarget.name]: event.currentTarget.value
     });
   };
-  loginHandler = (event: FormEvent<HTMLInputElement>): void => {
+  loginHandler = async (event: FormEvent<HTMLInputElement>) => {
     event.preventDefault();
     const { loginUser } = this.props;
     const { email, password } = this.state;
-    loginUser({ email: email, password: password });
+
+    await loginUser({ email: email, password: password });
+
+    window.location.href = "/";
   };
-  // componentDidUpdate() {
-  //   console.log("loged in");
-  // }
   render() {
     return (
       <div className="login-form-box mb-3 mt-3">

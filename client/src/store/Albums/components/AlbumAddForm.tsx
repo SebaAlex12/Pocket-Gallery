@@ -1,9 +1,12 @@
 import React, { Component, FormEvent } from "react";
 import { connect } from "react-redux";
+
 import { addAlbum } from "../actions";
+import { User } from "../../Users/types";
 
 interface Iprops {
   addAlbum(data: any): void;
+  user: User;
 }
 interface Istate {
   name: String;
@@ -33,21 +36,26 @@ class AlbumAddForm extends Component<Iprops, Istate> {
     });
   };
   addHandler = (event: FormEvent<HTMLInputElement>): void => {
-    const { addAlbum } = this.props;
+    const { addAlbum, user } = this.props;
     const { title, access, description, status } = this.state;
 
     const data = {
+      userId: user._id ? user._id : null,
       name: title.replace(/ /g, "-"),
       title,
       access,
       description,
-      status
+      status: user._id ? "administrator" : status
     };
 
     event.preventDefault();
     addAlbum(data);
   };
   render() {
+    const {
+      user: { logged }
+    } = this.props;
+
     return (
       <div className="clearfix">
         <form action="">
@@ -61,12 +69,16 @@ class AlbumAddForm extends Component<Iprops, Istate> {
             />
           </div>
           <div className="form-group form-row">
-            <label htmlFor="access">Access:</label>
+            <label htmlFor="access">
+              Access:{" "}
+              {/* {logged ? "- can not use access token because you are login" : ""} */}
+            </label>
             <input
               onChange={this.onChangeInput}
               type="password"
               name="access"
               className="form-control"
+              disabled={logged ? true : false}
             />
           </div>
           <div className="form-group form-row">
@@ -92,7 +104,9 @@ class AlbumAddForm extends Component<Iprops, Istate> {
   }
 }
 const mapStateToProps = (state: any) => {
-  return {};
+  return {
+    user: state.users.user ? state.users.user : null
+  };
 };
 export default connect(
   mapStateToProps,

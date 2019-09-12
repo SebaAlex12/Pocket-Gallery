@@ -1,5 +1,7 @@
 import { Dispatch } from "redux";
 import axios from "axios";
+// import store from "../store";
+
 import { ActionTypes, FetchAlbumsAction, AddAlbumAction } from "./types";
 
 // Albums authorization token
@@ -27,17 +29,38 @@ export const logoutAlbums = () => {
   };
 };
 
-export const fetchAlbums = () => {
+export const fetchAlbums = (userId: string | null) => {
   const jwtTokenAlbums = sessionStorage.getItem("jwtTokenAlbums");
+  // console.log("user id", userId);
 
-  // if token is set status will always be private
-  const status = jwtTokenAlbums ? "private" : "public";
-  const access = jwtTokenAlbums ? jwtTokenAlbums : "";
+  let id;
+  let status;
+  let access;
+
+  if (userId) {
+    // if userId is set status will be administrator
+    id = userId;
+    status = "administrator";
+    access = "";
+  } else if (jwtTokenAlbums) {
+    // if token is set status will be private
+    id = null;
+    status = "private";
+    access = jwtTokenAlbums;
+  } else {
+    // other cases status will be public
+    id = null;
+    status = "public";
+    access = "";
+  }
+
+  // const status = jwtTokenAlbums ? "private" : "public";
+  // const access = jwtTokenAlbums ? jwtTokenAlbums : "";
 
   const graph = {
     query: `
       query {
-        fetchAlbums(status: "${status}", access: "${access}"){
+        fetchAlbums(userId: "${id}", status: "${status}", access: "${access}"){
           _id
           name
           title
@@ -69,11 +92,14 @@ export const fetchAlbums = () => {
 export const addAlbum = (data: any) => {
   const presentDate = new Date();
 
+  // not fast removed
+  // const state = store.getState();
+
   const graph = {
     query: `mutation {
-      addAlbum(albumInput: { name: "${data.name}", title: "${
-      data.title
-    }", access: "${data.access}", description: "${
+      addAlbum(albumInput: { userId: "${data.userId}", name: "${
+      data.name
+    }", title: "${data.title}", access: "${data.access}", description: "${
       data.description
     }", status: "${data.status}", createdAt: "${presentDate.toDateString()}"}){
       _id
@@ -86,6 +112,7 @@ export const addAlbum = (data: any) => {
       }
     }`
   };
+
   return async (dispatch: Dispatch) => {
     await axios
       .post("/graphql", JSON.stringify(graph), {

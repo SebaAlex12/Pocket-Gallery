@@ -33,7 +33,7 @@ mongoose
 
 // Handle the upload image
 app.post("/upload-image/:dest", async (req: any, res) => {
-  upload(req, res, err => {
+  await upload(req, res, err => {
     if (err) {
       console.log("error message:", err);
       res.json(err);
@@ -42,7 +42,6 @@ app.post("/upload-image/:dest", async (req: any, res) => {
         console.log("No file selected!");
         res.json("No file selected!");
       } else {
-        console.log("Files uploaded successfully!");
         // console.log("req files", req.files);
         req.files.forEach(file => {
           const readStream = resize(file.path, "jpg", 300, 300);
@@ -53,7 +52,8 @@ app.post("/upload-image/:dest", async (req: any, res) => {
             }
           );
         });
-        res.json("Files uploaded successfully!");
+        console.log("Files uploaded successfully!");
+        res.json("Files uploaded successfully!!");
       }
     }
   });

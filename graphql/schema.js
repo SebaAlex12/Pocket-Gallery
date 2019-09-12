@@ -46,6 +46,7 @@ module.exports = buildSchema(`
     }
 
     input AlbumInputData {
+        userId: String!
         name: String!
         title: String!
         access: String
@@ -60,6 +61,7 @@ module.exports = buildSchema(`
         email: String!
         createdAt: String!
         password: String!
+        token: String!
     }
 
     type RootMutation {
@@ -71,7 +73,7 @@ module.exports = buildSchema(`
     type RootQuery {
         loginUser(email: String!, password: String!): UserLoginData!
         fetchPhotos(album: String, category: String, status: String!): [Photo]!
-        fetchAlbums(status: String!, access: String!): [Album]!
+        fetchAlbums(userId: String!, status: String!, access: String!): [Album]!
     }
 
     schema {

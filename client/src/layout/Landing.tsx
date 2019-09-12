@@ -1,8 +1,11 @@
-import ListPublic from "../store/Photos/components/ListPublic";
-import LogoutButton from "../store/Users/components/LogoutButton";
-import AddForm from "../store/Photos/components/AddForm";
-
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import ListPublic from "../store/Photos/components/ListPublic";
+import PhotoAddForm from "../store/Photos/components/PhotoAddForm";
+import LogoutButton from "../store/Users/components/LogoutButton";
+
+import "./landing.scss";
 
 interface Istate {
   addImageToggle: boolean;
@@ -20,11 +23,10 @@ class Landing extends Component<Iprops, Istate> {
   render() {
     const { addImageToggle } = this.state;
     return (
-      <div>
-        <nav>
-          <LogoutButton />
+      <div className="clearfix landing" style={{ clear: "both" }}>
+        <nav className="float-right text-right ">
           <button
-            className="btn btn-secondary float-right mr-1"
+            className="btn btn-secondary ml-1"
             onClick={() =>
               this.setState({
                 addImageToggle: !addImageToggle
@@ -33,6 +35,7 @@ class Landing extends Component<Iprops, Istate> {
           >
             Add images
           </button>
+          <LogoutButton />
         </nav>
         {addImageToggle ? (
           <div
@@ -44,7 +47,17 @@ class Landing extends Component<Iprops, Istate> {
               zIndex: 1000
             }}
           >
-            <AddForm />{" "}
+            <button
+              className="btn btn-primary hide"
+              onClick={() =>
+                this.setState({
+                  addImageToggle: false
+                })
+              }
+            >
+              x
+            </button>
+            {addImageToggle ? <PhotoAddForm /> : null}
           </div>
         ) : null}
         <ListPublic />
@@ -53,4 +66,7 @@ class Landing extends Component<Iprops, Istate> {
   }
 }
 
-export default Landing;
+export default connect(
+  null,
+  {}
+)(Landing);

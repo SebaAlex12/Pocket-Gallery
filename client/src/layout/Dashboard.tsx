@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import ListPublic from "../store/Photos/components/ListPublic";
 import LoginForm from "../store/Users/components/LoginForm";
 import RegistryForm from "../store/Users/components/RegistryForm";
-import AddForm from "../store/Photos/components/AddForm";
+import PhotoAddForm from "../store/Photos/components/PhotoAddForm";
 import { fetchAlbums, logoutAlbums } from "../store/Albums/actions";
 
 import "./dashboard.scss";
@@ -17,7 +17,7 @@ interface Istate {
 
 interface Iprops {
   logoutAlbums(): void;
-  fetchAlbums(): void;
+  fetchAlbums(userId: null): void;
 }
 
 class Dashboard extends Component<Iprops, Istate> {
@@ -32,7 +32,7 @@ class Dashboard extends Component<Iprops, Istate> {
   clearAccessTokenHandler = async () => {
     const { fetchAlbums, logoutAlbums } = this.props;
     await logoutAlbums();
-    await fetchAlbums();
+    await fetchAlbums(null);
   };
   render() {
     const { registryToggle, loginToggle, addImageToggle } = this.state;
@@ -104,7 +104,7 @@ class Dashboard extends Component<Iprops, Istate> {
             >
               x
             </button>
-            {addImageToggle ? <AddForm /> : null}
+            {addImageToggle ? <PhotoAddForm /> : null}
             {registryToggle ? <RegistryForm /> : null}
             {loginToggle ? <LoginForm /> : null}
           </div>

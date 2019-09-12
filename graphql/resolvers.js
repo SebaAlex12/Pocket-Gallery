@@ -3,7 +3,8 @@ const User = require("../models/User");
 const Album = require("../models/Album");
 
 //user authorization
-const bcrypt = require("bcrypt-nodejs");
+// const bcrypt = require("bcrypt-nodejs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const jwtDecode = require("jwt-decode");
 
@@ -12,18 +13,26 @@ const fsPromises = fs.promises;
 
 module.exports = {
   createUser: async function({ userInput }, req) {
+    if (!userInput.name || !userInput.email || !userInput.password) {
+      const err = new Error("You left input fields epmty");
+      throw err;
+    }
+
     const userExists = await User.findOne({ email: userInput.email });
 
     if (userExists) {
       const err = new Error("User already exists");
       throw err;
     }
-    const hash = await bcrypt.hash(userInput.password, 14);
+
+    const salt = bcrypt.genSaltSync(14);
+    const hash = bcrypt.hashSync(userInput.password, salt);
 
     const user = new User({
       name: userInput.name,
       email: userInput.email,
-      password: hash
+      password: hash,
+      createdAt: userInput.createdAt
     });
 
     const storedUser = await user.save();
@@ -31,6 +40,11 @@ module.exports = {
     return { ...storedUser._doc, _id: storedUser._id.toString() };
   },
   loginUser: async function({ email, password }) {
+    if (!email || !password) {
+      const err = new Error("You left input fields epmty");
+      throw err;
+    }
+
     const userData = await User.findOne({ email: email });
 
     if (!userData) {
@@ -45,9 +59,15 @@ module.exports = {
       throw err;
     }
 
-    const token = jwt.sign(
-      { data: { name: userData.name, email: userData.email } },
-      "secretkeyokey",
+    const token = await jwt.sign(
+      {
+        _id: userData._id.toString(),
+        name: userData.name,
+        email: userData.email,
+        createdAt: userData.createdAt,
+        logged: true
+      },
+      require("../config/keys").secretOrKeyOk,
       {
         expiresIn: "1h"
       }
@@ -55,16 +75,18 @@ module.exports = {
 
     return { ...userData._doc, _id: userData._id.toString(), token: token };
   },
-  fetchAlbums: async function({ status, access }) {
+  fetchAlbums: async function({ userId, status, access }) {
     let newAccess = "";
     if (access) {
       const jwtDecodedString = jwtDecode(access);
       newAccess = jwtDecodedString.data.access;
     }
     const params = {
+      userId,
       status,
       access: newAccess
     };
+
     const albums = await Album.find(params);
 
     const newAlbums = albums.map(async album => {
@@ -80,6 +102,7 @@ module.exports = {
   },
   addAlbum: async function({ albumInput }, req) {
     const album = new Album({
+      userId: albumInput.userId,
       name: albumInput.name,
       title: albumInput.title,
       access: albumInput.access,

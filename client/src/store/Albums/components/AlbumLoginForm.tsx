@@ -9,7 +9,7 @@ interface Istate {
 
 interface Iprops {
   loginAlbums(data: any): void;
-  fetchAlbums(): void;
+  fetchAlbums(userId: null): void;
 }
 
 class AlbumLoginForm extends Component<Iprops, Istate> {
@@ -31,7 +31,7 @@ class AlbumLoginForm extends Component<Iprops, Istate> {
     event.preventDefault();
 
     loginAlbums(access);
-    fetchAlbums();
+    fetchAlbums(null);
 
     const input = document.querySelector(
       "#albumLoginForm input[type=password]"

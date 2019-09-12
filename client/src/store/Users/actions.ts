@@ -11,6 +11,7 @@ export const loginUser = (data: any) => {
             _id
             name
             email
+            createdAt
             token
           }
         }
@@ -25,13 +26,9 @@ export const loginUser = (data: any) => {
       })
       .then(res => {
         const { loginUser } = res.data.data;
-        // console.log(loginUser.token);
 
         localStorage.setItem("jwtToken", loginUser.token);
         setAuthToken(loginUser.token);
-
-        // toDO this is wrong way
-        window.location.href = "/";
 
         dispatch<SetUserAction>({
           type: ActionTypes.setUser,
@@ -56,6 +53,8 @@ export const registerUser = (userData: any) => {
         _id
         name
         email
+        password
+        createdAt
       }
     }`
     };
@@ -68,13 +67,22 @@ export const registerUser = (userData: any) => {
       })
       .then(res => {
         const { createUser } = res.data.data;
-        logoutUser();
+        // logoutUser();
         dispatch<SetUserAction>({
           type: ActionTypes.setUser,
           payload: createUser
         });
       })
       .catch(err => console.log(err));
+  };
+};
+
+export const setCurrenUser = (userData: any) => {
+  return (dispatch: Dispatch) => {
+    dispatch<SetUserAction>({
+      type: ActionTypes.setUser,
+      payload: userData
+    });
   };
 };
 

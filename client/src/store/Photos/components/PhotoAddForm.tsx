@@ -4,29 +4,29 @@ import { addPhotos } from "../actions";
 import AlbumAddForm from "../../Albums/components/AlbumAddForm";
 import { fetchAlbums } from "../../Albums/actions";
 import { Album } from "../../Albums/types";
+import { User } from "../../Users/types";
 
 interface Iprops {
   albums: Album[];
+  user: User;
   addPhotos(data: any): void;
-  fetchAlbums(data: any): void;
+  fetchAlbums(userId: string | null): void;
 }
 
 interface Istate {
   title: String;
   description: String;
-  status: String;
   albumId: String;
   imageUrl: String;
   albumToggle: boolean;
 }
 
-class AddForm extends Component<Iprops, Istate> {
+class PhotoAddForm extends Component<Iprops, Istate> {
   constructor(props: Iprops) {
     super(props);
     this.state = {
       title: "",
       description: "",
-      status: "public",
       albumId: "",
       imageUrl: "",
       albumToggle: false
@@ -45,13 +45,13 @@ class AddForm extends Component<Iprops, Istate> {
     });
   };
   addHandler = async (event: FormEvent<HTMLInputElement>) => {
-    const { addPhotos } = this.props;
+    const { addPhotos, fetchAlbums, user } = this.props;
     const { albumId } = this.state;
     event.preventDefault();
 
     if (albumId !== "") {
-      await addPhotos(this.state);
-      await this.props.fetchAlbums("public");
+      await addPhotos(albumId);
+      await fetchAlbums(user._id ? user._id.toString() : null);
     }
   };
 
@@ -120,6 +120,7 @@ class AddForm extends Component<Iprops, Istate> {
 
 const mapStateToProps = (state: any) => {
   return {
+    user: state.users.user ? state.users.user : null,
     albums: state.albums.albums
   };
 };
@@ -127,4 +128,4 @@ const mapStateToProps = (state: any) => {
 export default connect(
   mapStateToProps,
   { addPhotos, fetchAlbums }
-)(AddForm);
+)(PhotoAddForm);

@@ -1,22 +1,23 @@
 import React from "react";
 import "./App.css";
 
-import { createStore, applyMiddleware } from "redux";
+import store from "./store/store";
+
 import { Provider } from "react-redux";
-import thunk from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { reducers } from "./store/index";
 import { BrowserRouter as Router } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+
+import { setCurrenUser } from "./store/Users/actions";
 
 import AlbumLoginForm from "./store/Albums/components/AlbumLoginForm";
 import Dashboard from "./layout/Dashboard";
 import Landing from "./layout/Landing";
 import "./app.scss";
 
-const store = createStore(
-  reducers,
-  composeWithDevTools(applyMiddleware(thunk))
-);
+if (localStorage.jwtToken) {
+  const userData = jwt_decode(localStorage.jwtToken);
+  store.dispatch<any>(setCurrenUser(userData));
+}
 
 function App() {
   return (
