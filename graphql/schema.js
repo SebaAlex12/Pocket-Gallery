@@ -21,6 +21,7 @@ module.exports = buildSchema(`
 
     type Album {
         _id: ID!
+        userId: String!
         name: String!
         title: String!
         access: String
@@ -68,6 +69,7 @@ module.exports = buildSchema(`
         createUser(userInput: UserInputData): User!
         addPhoto(photoInput: PhotoInputData): Photo!
         addAlbum(albumInput: AlbumInputData): Album!
+        removeAlbum(albumId: String!): Album!
     }
 
     type RootQuery {

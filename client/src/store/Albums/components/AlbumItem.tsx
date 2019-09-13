@@ -1,18 +1,24 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import Lightbox from "react-image-lightbox";
 import "react-image-lightbox/style.css";
 
 import ListItem from "../../Photos/components/ListItem";
 import ListItemNav from "../../Photos/components/ListItemNav";
 import { Album } from "../../Albums/types";
+import { User } from "../../Users/types";
 import "../albums.scss";
+import { removeAlbum } from "../actions";
 
 interface Iprops {
   album: Album;
+  user: User;
   removePhotosHandler(): void;
   checkAllPhotosHandler(album: Album): void;
   unCheckAllPhotosHandler(album: Album): void;
   checkIfChecked(data: string): void;
+  removeAlbum(id: string): void;
 }
 
 interface Istate {
@@ -37,9 +43,14 @@ class AlbumItem extends Component<Iprops, Istate> {
 
     return false;
   }
+  removeAlbumHandler(albumId: string) {
+    const { removeAlbum } = this.props;
+    removeAlbum(albumId);
+  }
   render() {
     const {
       album,
+      user,
       removePhotosHandler,
       checkAllPhotosHandler,
       unCheckAllPhotosHandler,
@@ -74,10 +85,29 @@ class AlbumItem extends Component<Iprops, Istate> {
     return (
       <div className="albums-album-item mt-2">
         <h2>
+          {user.logged ? (
+            <button
+              type="button"
+              onClick={() => this.removeAlbumHandler(album._id)}
+              className="btn btn-danger btn-primary mr-3"
+            >
+              delete
+            </button>
+          ) : null}
+
           <button type="button" className="btn btn-primary mr-3">
             photos <span className="badge badge-light">{photosNumber}</span>
           </button>
-          {`${album.title} / ${album.status}`}
+          <span
+            style={{ cursor: "pointer" }}
+            onClick={() =>
+              this.setState({
+                albumToggle: !albumToggle
+              })
+            }
+          >
+            {`${album.title} / ${album.status}`}
+          </span>
           <span
             className="dropdown-toggle ml-2 mr-2"
             style={{ cursor: "pointer" }}
@@ -130,4 +160,13 @@ class AlbumItem extends Component<Iprops, Istate> {
   }
 }
 
-export default AlbumItem;
+const mapStateToProps = (state: any) => {
+  return {
+    user: state.users.user ? state.users.user : null
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { removeAlbum }
+)(AlbumItem);

@@ -2,7 +2,12 @@ import { Dispatch } from "redux";
 import axios from "axios";
 // import store from "../store";
 
-import { ActionTypes, FetchAlbumsAction, AddAlbumAction } from "./types";
+import {
+  ActionTypes,
+  FetchAlbumsAction,
+  AddAlbumAction,
+  RemoveAlbumAction
+} from "./types";
 
 // Albums authorization token
 import jwt from "jsonwebtoken";
@@ -125,5 +130,32 @@ export const addAlbum = (data: any) => {
         });
       })
       .catch(err => console.log(err));
+  };
+};
+export const removeAlbum = (albumId: string) => {
+  console.log("id", albumId);
+  return async (dispatch: Dispatch) => {
+    const graph = {
+      query: `
+      mutation {
+        removeAlbum(albumId:"${albumId}"){
+          _id
+        }
+      }
+      `
+    };
+    await axios
+      .post("/graphql", JSON.stringify(graph), {
+        headers: { "Content-Type": "application/json" }
+      })
+      .then(res => {
+        dispatch<RemoveAlbumAction>({
+          type: ActionTypes.removeAlbum,
+          payload: res.data.data.removeAlbum
+        });
+      })
+      .catch(err => console.log(err));
+
+    // return response;
   };
 };

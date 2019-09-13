@@ -15,7 +15,8 @@ export interface AlbumsState {
 
 export enum ActionTypes {
   fetchAlbums = "FETCH_ALBUMS",
-  addAlbum = "ADD_ALBUM"
+  addAlbum = "ADD_ALBUM",
+  removeAlbum = "REMOVE_ALBUM"
 }
 
 export interface FetchAlbumsAction {
@@ -28,4 +29,12 @@ export interface AddAlbumAction {
   payload: Album;
 }
 
-export type AlbumsAction = FetchAlbumsAction | AddAlbumAction;
+export interface RemoveAlbumAction {
+  type: ActionTypes.removeAlbum;
+  payload: Album;
+}
+
+export type AlbumsAction =
+  | FetchAlbumsAction
+  | AddAlbumAction
+  | RemoveAlbumAction;

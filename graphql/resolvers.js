@@ -91,10 +91,13 @@ module.exports = {
 
     const newAlbums = albums.map(async album => {
       let path = "./client/public/photos/albums/" + album._id;
-      const photos = await fsPromises.readdir(path);
-      // console.log(photos);
-      album.photos = photos.filter(photo => photo != "mini");
-      // album.photos = await fsPromises.readdir(path);
+
+      if (fs.existsSync(path)) {
+        const photos = await fsPromises.readdir(path);
+        album.photos = photos.filter(photo => photo != "mini");
+      } else {
+        album.photos = [];
+      }
       return album;
     });
 
@@ -129,6 +132,20 @@ module.exports = {
     }
 
     return { ...storedAlbum._doc, _id: storedAlbum._id.toString(), photos: [] };
+  },
+  removeAlbum: async function({ albumId }) {
+    try {
+      await Album.deleteOne({ _id: albumId });
+      const path = "./client/public/photos/albums/" + albumId;
+
+      await fs.rmdir(path, { recursive: true }, err => {
+        if (err) console.log("errors:", err);
+      });
+    } catch (err) {
+      const error = new Error(err);
+      throw error;
+    }
+    return { _id: albumId };
   }
   // addPhoto: async function({ photoInput }, req) {
   //   const photo = new Photo({
