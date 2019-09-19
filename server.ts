@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose = require("mongoose");
 import express = require("express");
 import bodyParser = require("body-parser");
 import path = require("path");
