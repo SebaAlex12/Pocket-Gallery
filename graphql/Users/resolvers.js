@@ -61,7 +61,7 @@ module.exports = {
         createdAt: userData.createdAt,
         logged: true
       },
-      require("../config/keys").secretOrKeyOk,
+      require("../../config/keys").secretOrKeyOk,
       {
         expiresIn: "1h"
       }

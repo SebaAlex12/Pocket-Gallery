@@ -22,7 +22,7 @@ export const albumsReducer = (
     case ActionTypes.removeAlbum:
       return {
         ...state,
-        albums: state.albums.filter(album => album._id != action.payload._id)
+        albums: state.albums.filter(album => album._id !== action.payload._id)
       };
     default:
       return state;
