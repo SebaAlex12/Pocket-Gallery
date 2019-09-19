@@ -4,7 +4,7 @@ import bodyParser = require("body-parser");
 import path = require("path");
 
 import graphqlHttp = require("express-graphql");
-import graphqlSchema = require("./graphql/schema");
+import graphqlSchema = require("./graphql/schema_old");
 import graphqlResolver = require("./graphql/resolvers");
 
 import { upload, resize } from "./utils/filesManager";
