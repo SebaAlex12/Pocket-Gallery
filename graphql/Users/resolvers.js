@@ -59,6 +59,7 @@ module.exports = {
         name: userData.name,
         email: userData.email,
         createdAt: userData.createdAt,
+        tokenCreatedAt: new Date(),
         logged: true
       },
       require("../../config/keys").secretOrKeyOk,

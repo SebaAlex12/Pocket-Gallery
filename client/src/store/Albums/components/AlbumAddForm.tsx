@@ -70,8 +70,18 @@ class AlbumAddForm extends Component<Iprops, Istate> {
           </div>
           <div className="form-group form-row">
             <label htmlFor="access">
-              Access:{" "}
-              {/* {logged ? "- can not use access token because you are login" : ""} */}
+              Access token:{" "}
+              {logged ? (
+                <i
+                  className="glyphicon glyphicon-exclamation-sign"
+                  data-toggle="tooltip"
+                  data-placement="right"
+                  title="can not use access token because you are login"
+                  style={{ cursor: "pointer", fontSize: "16px" }}
+                ></i>
+              ) : (
+                ""
+              )}
             </label>
             <input
               onChange={this.onChangeInput}

@@ -27,8 +27,8 @@ export const loginUser = (data: any) => {
       .then(res => {
         const { loginUser } = res.data.data;
 
-        localStorage.setItem("jwtToken", loginUser.token);
-        setAuthToken(loginUser.token);
+        localStorage.setItem("jwtTokenAuthorization", loginUser.token);
+        // setAuthToken(loginUser.token);
 
         dispatch<SetUserAction>({
           type: ActionTypes.setUser,
@@ -89,7 +89,7 @@ export const setCurrenUser = (userData: any) => {
 export const logoutUser = () => {
   return async (dispatch: Dispatch) => {
     // Remove token fromlocalstorage
-    await localStorage.removeItem("jwtToken");
+    await localStorage.removeItem("jwtTokenAuthorization");
     // remove outh header
     //  setAuthToken(false);
     // set current user to empty object

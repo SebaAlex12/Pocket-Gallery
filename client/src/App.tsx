@@ -14,8 +14,8 @@ import Dashboard from "./layout/Dashboard";
 import Landing from "./layout/Landing";
 import "./app.scss";
 
-if (localStorage.jwtToken) {
-  const userData = jwt_decode(localStorage.jwtToken);
+if (localStorage.jwtTokenAuthorization) {
+  const userData = jwt_decode(localStorage.jwtTokenAuthorization);
   store.dispatch<any>(setCurrenUser(userData));
 }
 
@@ -26,7 +26,8 @@ function App() {
         <div className="container main-app mt-2">
           <div className="row">
             <div className="col-lg-12">
-              {!localStorage.jwtToken || localStorage.jwtToken === undefined ? (
+              {!localStorage.jwtTokenAuthorization ||
+              localStorage.jwtTokenAuthorization === undefined ? (
                 <div className="logout-box">
                   <h1 className="float-left">Pocket Gallery</h1>
                   <AlbumLoginForm />
