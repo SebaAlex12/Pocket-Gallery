@@ -1,7 +1,7 @@
 # Pocket-Gallery
 react, redux, node, graphql, typescript
 
- You can build your own albums very fast and ease. Application allow create, delete( this is available for administrator level) albums. Also you can register and login. This allow you to have albums in own private.
+ You can build your own albums and give access to your friends very fast and ease. Application allow create, delete( this is available for administrator level) albums. Also you can register and login. This allow you to have albums in own private.
 
 Demo:
 https://gallery-pocket.herokuapp.com/
