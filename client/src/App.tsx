@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import moment from "moment";
 
 import store from "./store/store";
 
@@ -15,8 +16,22 @@ import Landing from "./layout/Landing";
 import "./app.scss";
 
 if (localStorage.jwtTokenAuthorization) {
-  const userData = jwt_decode(localStorage.jwtTokenAuthorization);
-  store.dispatch<any>(setCurrenUser(userData));
+  const { _id, name, createdAt, tokenCreatedAt, logged } = jwt_decode(
+    localStorage.jwtTokenAuthorization
+  );
+
+  const expiredMinutes = 60;
+
+  const difference = moment(new Date()).diff(tokenCreatedAt, "minutes");
+  // console.log("difference", difference);
+
+  if (difference < expiredMinutes) {
+    store.dispatch<any>(
+      setCurrenUser({ _id, name, createdAt, tokenCreatedAt, logged })
+    );
+  } else {
+    localStorage.removeItem("jwtTokenAuthorization");
+  }
 }
 
 function App() {
