@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 
 import ListPublic from "../store/Photos/components/ListPublic";
 import PhotoAddForm from "../store/Photos/components/PhotoAddForm";
+import LogoutButton from "../store/Users/components/LogoutButton";
 
 import "./landing.scss";
 
@@ -34,6 +35,7 @@ class Landing extends Component<Iprops, Istate> {
           >
             Add images
           </button>
+          <LogoutButton />
         </nav>
         {addImageToggle ? (
           <div
